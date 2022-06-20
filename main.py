@@ -10,54 +10,54 @@ from kivy.uix.widget import Widget
 #     pass
 
 
-    def __init__(self, **kwargs):
-        super(MyGrid, self).__init__(**kwargs)
-        self.cols = 1
+def __init__(self, **kwargs):
+    super(MyGrid, self).__init__(**kwargs)
+    self.cols = 1
 
 
-        self.inside = GridLayout()
-        self.inside.cols = 2
+    self.inside = GridLayout()
+    self.inside.cols = 2
 
-        self.cols = 2
-        self.inside.add_widget(Label(text="Name: "))
-        self.name = TextInput(multiline=False)
-        self.inside.add_widget(self.name)
+    self.cols = 2
+    self.inside.add_widget(Label(text="Name: "))
+    self.name = TextInput(multiline=False)
+    self.inside.add_widget(self.name)
 
-        self.inside.add_widget(Label(text="Last Name: "))
-        self.lastName = TextInput(multiline=False)
-        self.inside.add_widget(self.lastName)
+    self.inside.add_widget(Label(text="Last Name: "))
+    self.lastName = TextInput(multiline=False)
+    self.inside.add_widget(self.lastName)
 
-        self.inside.add_widget(Label(text="Email: "))
-        self.email = TextInput(multiline=False)
-        self.inside.add_widget(self.email)
+    self.inside.add_widget(Label(text="Email: "))
+    self.email = TextInput(multiline=False)
+    self.inside.add_widget(self.email)
 
-        self.add_widget(self.inside)
-
-
-
-        self.submit = Button(text="Submit", font_size=40)
-        self.submit.bind(on_press=self.pressed)
-        self.add_widget(self.submit)
-
-    def pressed(self, instance):
-        name = self.name.text
-        last = self.lastName.text
-        email = self.email.text
-        print("Name:", name, "Last Name:", last, "Email:", email)
-        self.name.text = ""
-        self.lastName.text = ""
-        self.email.text = ""
-        print("Pressed")
+    self.add_widget(self.inside)
 
 
-# class MyApp(App):
-#     def build(self):
-#         return MyGrid()
-#         # return Label(text="Tech with Tim")
-#
-#
-# if __name__ == "__main__":
-#     MyApp().run()
+
+    self.submit = Button(text="Submit", font_size=40)
+    self.submit.bind(on_press=self.pressed)
+    self.add_widget(self.submit)
+
+def pressed(self, instance):
+    name = self.name.text
+    last = self.lastName.text
+    email = self.email.text
+    print("Name:", name, "Last Name:", last, "Email:", email)
+    self.name.text = ""
+    self.lastName.text = ""
+    self.email.text = ""
+    print("Pressed")
+
+
+class MyApp(App):
+    def build(self):
+        return MyGrid()
+        # return Label(text="Tech with Tim")
+
+
+if __name__ == "__main__":
+    MyApp().run()
 
 # import speech_recognition as sr
 # import speech_rec as s
