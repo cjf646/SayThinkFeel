@@ -253,33 +253,37 @@ def getSubjectivity(text):
     #     return "Subjective"
 
 
-def get_Response(sentiment):
-    if sentiment == 'Positive':
-        audio = s.init()
-        rate = audio.getProperty('rate')
-# print(rate)
-        audio.setProperty('rate', 150)
+# def get_Response(sentiment):
+#     if sentiment == 'Positive':
+#         audio = s.init()
+#         rate = audio.getProperty('rate')
+# # print(rate)
+#         audio.setProperty('rate', 150)
+#
+#         volume = audio.getProperty('volume')
+# # print(volume)
+#
+#         audio.setProperty('volume', 0.5)
+#
+#         audio.say("That is so fucking nice. oh my god. I love you")
+#         audio.runAndWait()
+#     elif sentiment == 'Negative':
+#         audio = s.init()
+#         rate = audio.getProperty('rate')
+#         # print(rate)
+#         audio.setProperty('rate', 150)
+#
+#         volume = audio.getProperty('volume')
+#         # print(volume)
+#
+#         audio.setProperty('volume', 0.5)
+#
+#         audio.say("That is so fucking rude. Smarten up. You are now at: ")
+#         audio.runAndWait()
 
-        volume = audio.getProperty('volume')
-# print(volume)
 
-        audio.setProperty('volume', 0.5)
 
-        audio.say("That is so fucking nice. oh my god. I love you")
-        audio.runAndWait()
-    elif sentiment == 'Negative':
-        audio = s.init()
-        rate = audio.getProperty('rate')
-        # print(rate)
-        audio.setProperty('rate', 150)
 
-        volume = audio.getProperty('volume')
-        # print(volume)
-
-        audio.setProperty('volume', 0.5)
-
-        audio.say("That is so fucking rude. Smarten up. You are now at: ")
-        audio.runAndWait()
 # r = sr.Recognizer()
 
 def check_Sentiment(sentiment, human_sentiment):
@@ -296,71 +300,83 @@ def check_Sentiment(sentiment, human_sentiment):
 #     df.to_pickle("a_file.pkl")
 #     return pd.read_pickle("a_file.pkl")
 
+# def pickled(df):
+#     if pd.read_pickle("a_file.pkl") == True:
+
+
 import time
 import speech_recognition as s_r
 
 # print(pd.read_pickle("a_file.pkl"))
 
+df = pd.DataFrame(columns=['Text', 'Sentiment'])
 # df = pd.DataFrame(columns=['Text', 'Sentiment'])
-# # df = pd.DataFrame(columns=['Text', 'Sentiment'])
-# index = 0
-#     # print(s_r.__version__) # just to print the version not required
-# r = s_r.Recognizer()
-# my_mic = s_r.Microphone(device_index=1) #my device index is 1, you have to put your device index
-#
-# with my_mic as source:
-#
-#     # r.adjust_for_ambient_noise(source)
-#
-#     for x in range(3):
-#         print("Say now!!!!")
-#         audio = r.listen(source, phrase_time_limit=5)
-#     # audio = r.listen(source) #take voice input from the microphone
-#         text = r.recognize_google(audio)
-#         print(text) #to print voice into text
-#         sent = getPolarity(text)
-#         sentiment = getAnalysis(sent)
-#         subjective = getSubjectivity(text)
-#
-#         count = positivity_count(sent, score)
-#         score = count
-#
-#
-#         print("The text is: ", subjective)
-#         print(sentiment)
-#
-#         human_sentiment = input("what is sentiment: ")
-#
-#         # print(human_sentiment)
-#
-#         check = check_Sentiment(sentiment, human_sentiment)
-#         if check == 'GOOD':
-#             print("Correct sentiment")
-#         elif check != 'GOOD':
-#             print('Correct sentiment is:', check)
-#             # df.read_pickle("a_file.pkl")
-#
-#             df['Text'] = [text]
-#             df['Sentiment'] = [human_sentiment]
-#
-#             df.at[index, 'Text'] = text
-#             df.at[index, 'Sentiment'] = human_sentiment
-#
-#             # print(df)
-#             index = index + 1
-#             df.to_pickle("a_file.pkl")
-#
-#
-#
-#             # print(output)
-#
-#
-#             # df.to_csv("df.csv")
-#             # df = df.index
-#
-#         print("Your score is at: ", count)
-#         response = get_Response(sentiment)
-print(pd.read_pickle("a_file.pkl"))
+index = 0
+    # print(s_r.__version__) # just to print the version not required
+r = s_r.Recognizer()
+my_mic = s_r.Microphone(device_index=1) #my device index is 1, you have to put your device index
+
+with my_mic as source:
+
+    # r.adjust_for_ambient_noise(source)
+
+    for x in range(1):
+        print("Say now!!!!")
+        audio = r.listen(source, phrase_time_limit=5)
+    # audio = r.listen(source) #take voice input from the microphone
+        text = r.recognize_google(audio)
+        print(text) #to print voice into text
+        sent = getPolarity(text)
+        sentiment = getAnalysis(sent)
+        subjective = getSubjectivity(text)
+
+        count = positivity_count(sent, score)
+        score = count
+
+
+        print("The text is: ", subjective)
+        print(sentiment)
+
+        human_sentiment = input("what is sentiment: ")
+
+        # print(human_sentiment)
+
+        check = check_Sentiment(sentiment, human_sentiment)
+        if check == 'GOOD':
+            print("Correct sentiment")
+        elif check != 'GOOD':
+            print('Correct sentiment is:', check)
+
+
+            df['Text'] = [text]
+            df['Sentiment'] = [human_sentiment]
+
+            df.at[index, 'Text'] = text
+            df.at[index, 'Sentiment'] = human_sentiment
+
+            # print(df)
+            index = index + 1
+            saved = pd.read_pickle("a_file.pkl")
+
+
+
+            # df.to_pickle("a_file.pkl")
+            #
+            # print(saved)
+
+
+            updated_df = pd.concat([df, saved])
+            updated_df.to_pickle("a_file.pkl")
+            print(updated_df)
+
+        print("Your score is at: ", count)
+        # response = get_Response(sentiment)
+        # print(df)
+# saved = pd.read_pickle("a_file.pkl")
+# print(updated)
+
+
+# print(pd.read_pickle("a_file.pkl"))
         # print(output)
     # saveDataframe(df)
     # print(saveDataframe(df))
