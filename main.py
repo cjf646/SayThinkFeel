@@ -1,63 +1,111 @@
-import kivy
+# import kivy
+# from kivy.app import App
+# from kivy.lang import Builder
+# from kivy.uix.screenmanager import ScreenManager, Screen
+# from kivy.properties import ObjectProperty
+# from kivy.uix.popup import Popup
+# from kivy.uix.label import Label
+# from kivy.graphics import Color, Rectangle, RoundedRectangle
+# import urllib
+# from urllib.request import urlopen
+# from bs4 import BeautifulSoup as soup
+# import pandas as pd
+# from sklearn.preprocessing import MinMaxScaler
+# import numpy as np
+# import pickle
+# from datetime import timedelta
+# # from kivy_garden.graph import Graph, MeshLinePlot
+# from kivy.uix.floatlayout import FloatLayout
+#
+#
+# from kivy.uix.gridlayout import GridLayout
+# from kivy.uix.textinput import TextInput
+# from kivy.uix.button import Button
+# from kivy.uix.widget import Widget
+#
+#
+#
+# class firstWindow(Screen):
+#     def next(self):
+#         show_popup().open()
+#
 from kivy.app import App
-from kivy.uix.label import Label
 from kivy.uix.gridlayout import GridLayout
-from kivy.uix.textinput import TextInput
+from kivy.uix.label import Label
+from kivy.uix.image import Image
 from kivy.uix.button import Button
-from kivy.uix.widget import Widget
+from kivy.uix.textinput import TextInput
+
+class SayThinkFeel(App):
+    def build(self):
+        self.window = GridLayout()
+        #add widgets to window
+        self.window = GridLayout()
+        self.window.cols = 1
+
+        #image widget
+        self.window.add_widget(Image(source="youfirst.png"))
+
+        return self.window
+
+if __name__ == "__main__":
+    SayThinkFeel().run()
+
+
+
 
 # class MyGrid(Widget):
 #     pass
 
 
-def __init__(self, **kwargs):
-    super(MyGrid, self).__init__(**kwargs)
-    self.cols = 1
-
-
-    self.inside = GridLayout()
-    self.inside.cols = 2
-
-    self.cols = 2
-    self.inside.add_widget(Label(text="Name: "))
-    self.name = TextInput(multiline=False)
-    self.inside.add_widget(self.name)
-
-    self.inside.add_widget(Label(text="Last Name: "))
-    self.lastName = TextInput(multiline=False)
-    self.inside.add_widget(self.lastName)
-
-    self.inside.add_widget(Label(text="Email: "))
-    self.email = TextInput(multiline=False)
-    self.inside.add_widget(self.email)
-
-    self.add_widget(self.inside)
-
-
-
-    self.submit = Button(text="Submit", font_size=40)
-    self.submit.bind(on_press=self.pressed)
-    self.add_widget(self.submit)
-
-def pressed(self, instance):
-    name = self.name.text
-    last = self.lastName.text
-    email = self.email.text
-    print("Name:", name, "Last Name:", last, "Email:", email)
-    self.name.text = ""
-    self.lastName.text = ""
-    self.email.text = ""
-    print("Pressed")
-
-
-class MyApp(App):
-    def build(self):
-        return MyGrid()
-        # return Label(text="Tech with Tim")
-
-
-if __name__ == "__main__":
-    MyApp().run()
+# def __init__(self, **kwargs):
+#     super(MyGrid, self).__init__(**kwargs)
+#     self.cols = 1
+#
+#
+#     self.inside = GridLayout()
+#     self.inside.cols = 2
+#
+#     self.cols = 2
+#     self.inside.add_widget(Label(text="Name: "))
+#     self.name = TextInput(multiline=False)
+#     self.inside.add_widget(self.name)
+#
+#     self.inside.add_widget(Label(text="Last Name: "))
+#     self.lastName = TextInput(multiline=False)
+#     self.inside.add_widget(self.lastName)
+#
+#     self.inside.add_widget(Label(text="Email: "))
+#     self.email = TextInput(multiline=False)
+#     self.inside.add_widget(self.email)
+#
+#     self.add_widget(self.inside)
+#
+#
+#
+#     self.submit = Button(text="Submit", font_size=40)
+#     self.submit.bind(on_press=self.pressed)
+#     self.add_widget(self.submit)
+#
+# def pressed(self, instance):
+#     name = self.name.text
+#     last = self.lastName.text
+#     email = self.email.text
+#     print("Name:", name, "Last Name:", last, "Email:", email)
+#     self.name.text = ""
+#     self.lastName.text = ""
+#     self.email.text = ""
+#     print("Pressed")
+#
+#
+# class MyApp(App):
+#     def build(self):
+#         return MyGrid()
+#         # return Label(text="Tech with Tim")
+#
+#
+# if __name__ == "__main__":
+#     MyApp().run()
 
 # import speech_recognition as sr
 # import speech_rec as s
