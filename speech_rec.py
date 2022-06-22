@@ -320,7 +320,9 @@ with my_mic as source:
 
     # r.adjust_for_ambient_noise(source)
 
-    for x in range(1):
+    # for x in range(1):
+    running = 'Y'
+    while running == 'Y':
         print("Say now!!!!")
         audio = r.listen(source, phrase_time_limit=5)
     # audio = r.listen(source) #take voice input from the microphone
@@ -330,8 +332,7 @@ with my_mic as source:
         sentiment = getAnalysis(sent)
         subjective = getSubjectivity(text)
 
-        count = positivity_count(sent, score)
-        score = count
+
 
 
         print("The text is: ", subjective)
@@ -344,8 +345,20 @@ with my_mic as source:
         check = check_Sentiment(sentiment, human_sentiment)
         if check == 'GOOD':
             print("Correct sentiment")
+            count = positivity_count(sent, score)
+            score = count
+            print("Your score is at: ", count)
         elif check != 'GOOD':
             print('Correct sentiment is:', check)
+
+            if check == 'Negative':
+                count = count - 1
+            elif check == 'Positive':
+                count = count + 1
+            elif check == 'Neutral':
+                count = count
+            print("Your score is at: ", count)
+
 
 
             df['Text'] = [text]
@@ -369,7 +382,9 @@ with my_mic as source:
             updated_df.to_pickle("a_file.pkl")
             print(updated_df)
 
-        print("Your score is at: ", count)
+
+        running = (input('Run again? Y or N:  '))
+
         # response = get_Response(sentiment)
         # print(df)
 # saved = pd.read_pickle("a_file.pkl")
