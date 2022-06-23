@@ -22,6 +22,7 @@ import pandas as pd
 import numpy as np
 import re
 from transformers import pipeline
+import datetime
 
 # data = pd.read_csv("tweet_emotions.csv")
 # # sent = pd.DataFrame(data)
@@ -303,6 +304,11 @@ def check_Sentiment(sentiment, human_sentiment):
 # def pickled(df):
 #     if pd.read_pickle("a_file.pkl") == True:
 
+# check_sentence_sentiment
+
+# def check_df(text, saved):
+#     if text ==
+
 
 import time
 import speech_recognition as s_r
@@ -328,6 +334,19 @@ with my_mic as source:
     # audio = r.listen(source) #take voice input from the microphone
         text = r.recognize_google(audio)
         print(text) #to print voice into text
+
+        # saved = pd.read_pickle("a_file.pkl")
+        # checking = saved['Text'].str.isin(text)
+        # print(checking)
+
+            # if checking
+            #     print("This is fucking awesome")
+            # else:
+            #     print("This sucks")
+
+        # check_df_updated_sentiment = check_df(text, saved)
+
+
         sent = getPolarity(text)
         sentiment = getAnalysis(sent)
         subjective = getSubjectivity(text)
@@ -369,7 +388,8 @@ with my_mic as source:
 
             # print(df)
             index = index + 1
-            saved = pd.read_pickle("a_file.pkl")
+            # saved = pd.read_pickle("a_file.pkl")
+
 
 
 
@@ -378,11 +398,13 @@ with my_mic as source:
             # print(saved)
 
 
-            updated_df = pd.concat([df, saved])
-            updated_df.to_pickle("a_file.pkl")
-            print(updated_df)
+            # updated_df = pd.concat([df, saved])
+            # updated_df.to_pickle("a_file.pkl")
+            # print(updated_df)
 
-
+        date = datetime.date.today()
+        print(date)
+        print(pd.read_pickle("a_file.pkl"))
         running = (input('Run again? Y or N:  '))
 
         # response = get_Response(sentiment)
