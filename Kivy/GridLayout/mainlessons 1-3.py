@@ -27,7 +27,7 @@ class MyGrid(GridLayout):
 
         self.add_widget(self.inside)
 
-        self.submit = Button(text ="Submit", font_size = 40)
+        self.submit = Button(text ="Submit", font_size= 40)
         self.submit.bind(on_press=self.pressed)
         self.add_widget(self.submit)
 

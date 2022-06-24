@@ -313,6 +313,22 @@ def check_Sentiment(sentiment, human_sentiment):
 import time
 import speech_recognition as s_r
 
+def micRecord(r):
+    with my_mic as source:
+
+        # r.adjust_for_ambient_noise(source)
+
+        # for x in range(1):
+        running = 'Y'
+        while running == 'Y':
+            print("Say now!!!!")
+            audio = r.listen(source, phrase_time_limit=5)
+        # audio = r.listen(source) #take voice input from the microphone
+            text = r.recognize_google(audio)
+            print(text) #to print voice into text
+
+
+
 # print(pd.read_pickle("a_file.pkl"))
 
 df = pd.DataFrame(columns=['Text', 'Sentiment'])
@@ -322,90 +338,93 @@ index = 0
 r = s_r.Recognizer()
 my_mic = s_r.Microphone(device_index=1) #my device index is 1, you have to put your device index
 
-with my_mic as source:
+# with my_mic as source:
+#
+#     # r.adjust_for_ambient_noise(source)
+#
+#     # for x in range(1):
+#     running = 'Y'
+#     while running == 'Y':
+#         print("Say now!!!!")
+#         audio = r.listen(source, phrase_time_limit=5)
+#     # audio = r.listen(source) #take voice input from the microphone
+#         text = r.recognize_google(audio)
+#         print(text) #to print voice into text
+#
+#         # saved = pd.read_pickle("a_file.pkl")
+#         # checking = saved['Text'].str.isin(text)
+#         # print(checking)
+#
+#             # if checking
+#             #     print("This is fucking awesome")
+#             # else:
+#             #     print("This sucks")
+#
+#         # check_df_updated_sentiment = check_df(text, saved)
+#
+#
+#         sent = getPolarity(text)
+#         sentiment = getAnalysis(sent)
+#         subjective = getSubjectivity(text)
+#
+#
+#
+#
+#         print("The text is: ", subjective)
+#         print(sentiment)
+#
+#         human_sentiment = input("what is sentiment: ")
+#
+#         # print(human_sentiment)
+#
+#         check = check_Sentiment(sentiment, human_sentiment)
+#         if check == 'GOOD':
+#             print("Correct sentiment")
+#             count = positivity_count(sent, score)
+#             score = count
+#             print("Your score is at: ", count)
+#         elif check != 'GOOD':
+#             print('Correct sentiment is:', check)
+#
+#             if check == 'Negative':
+#                 count = count - 1
+#             elif check == 'Positive':
+#                 count = count + 1
+#             elif check == 'Neutral':
+#                 count = count
+#             print("Your score is at: ", count)
+#
+#
+#
+#             df['Text'] = [text]
+#             df['Sentiment'] = [human_sentiment]
+#
+#             df.at[index, 'Text'] = text
+#             df.at[index, 'Sentiment'] = human_sentiment
+#
+#             # print(df)
+#             index = index + 1
+#             # saved = pd.read_pickle("a_file.pkl")
+#
+#
+#
+#
+#             # df.to_pickle("a_file.pkl")
+#             #
+#             # print(saved)
+#
+#
+#             # updated_df = pd.concat([df, saved])
+#             # updated_df.to_pickle("a_file.pkl")
+#             # print(updated_df)
+#
+#         date = datetime.date.today()
+#         print(date)
+#         print(pd.read_pickle("a_file.pkl"))
+#         running = (input('Run again? Y or N:  '))
 
-    # r.adjust_for_ambient_noise(source)
-
-    # for x in range(1):
-    running = 'Y'
-    while running == 'Y':
-        print("Say now!!!!")
-        audio = r.listen(source, phrase_time_limit=5)
-    # audio = r.listen(source) #take voice input from the microphone
-        text = r.recognize_google(audio)
-        print(text) #to print voice into text
-
-        # saved = pd.read_pickle("a_file.pkl")
-        # checking = saved['Text'].str.isin(text)
-        # print(checking)
-
-            # if checking
-            #     print("This is fucking awesome")
-            # else:
-            #     print("This sucks")
-
-        # check_df_updated_sentiment = check_df(text, saved)
 
 
-        sent = getPolarity(text)
-        sentiment = getAnalysis(sent)
-        subjective = getSubjectivity(text)
-
-
-
-
-        print("The text is: ", subjective)
-        print(sentiment)
-
-        human_sentiment = input("what is sentiment: ")
-
-        # print(human_sentiment)
-
-        check = check_Sentiment(sentiment, human_sentiment)
-        if check == 'GOOD':
-            print("Correct sentiment")
-            count = positivity_count(sent, score)
-            score = count
-            print("Your score is at: ", count)
-        elif check != 'GOOD':
-            print('Correct sentiment is:', check)
-
-            if check == 'Negative':
-                count = count - 1
-            elif check == 'Positive':
-                count = count + 1
-            elif check == 'Neutral':
-                count = count
-            print("Your score is at: ", count)
-
-
-
-            df['Text'] = [text]
-            df['Sentiment'] = [human_sentiment]
-
-            df.at[index, 'Text'] = text
-            df.at[index, 'Sentiment'] = human_sentiment
-
-            # print(df)
-            index = index + 1
-            # saved = pd.read_pickle("a_file.pkl")
-
-
-
-
-            # df.to_pickle("a_file.pkl")
-            #
-            # print(saved)
-
-
-            # updated_df = pd.concat([df, saved])
-            # updated_df.to_pickle("a_file.pkl")
-            # print(updated_df)
-
-        date = datetime.date.today()
-        print(date)
-        print(pd.read_pickle("a_file.pkl"))
-        running = (input('Run again? Y or N:  '))
 
         # response = get_Response(sentiment)
         # print(df)

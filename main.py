@@ -22,12 +22,7 @@ from kivy.uix.textinput import TextInput
 from kivy.uix.button import Button
 from kivy.uix.widget import Widget
 from kivy.core.window import Window
-#
-#
-# class firstWindow(Screen):
-#     def next(self):
-#         show_popup().open()
-#
+
 from kivy.app import App
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
@@ -42,33 +37,151 @@ from kivymd.theming import ThemeManager
 #
 # MainApp().run()
 
+# importing image widget of kivy framework
+from kivy.uix.image import Image
+from kivy.uix.button import Button
+from kivy.app import App
 
+# importing boxlayout for our application
+from kivy.uix.boxlayout import BoxLayout
+import speech_rec
+Builder.load_file('my.kv')
+# this will connect MainWindow which we have created in ui.kv with main.py file
 
-class SayHello(App):
+class BoxLayoutApp(App):
+
     def build(self):
-        self.window = GridLayout()
-        self.window.cols = 1
+        # To position oriented widgets again in the proper orientation
+        # use of vertical orientation to set all widgets
+        superBox = BoxLayout(orientation='vertical')
+
+        # To position widgets next to each other,
+        # use a horizontal BoxLayout.
+        VB = BoxLayout(orientation='vertical')
+        image = Image(source="youfirst.png")
+        Start_recording_btn = Button(text="Press to to start recording your voice")
+        # btn1 = Button(text="One")
+        # btn2 = Button(text="Two")
+
+        # HB represents the horizontal boxlayout orientation
+        # declared above
+        VB.add_widget(image)
+        VB.add_widget(Start_recording_btn)
+        # VB.add_widget(btn1)
+        # VB.add_widget(btn2)
+
+        # To position widgets above/below each other,
+        # use a vertical BoxLayout.
+        HB = BoxLayout(orientation='horizontal', spacing=1, size_hint=(1,0.1))
 
 
-        self.window.add_widget(Image(source="youfirst.png"))
-        self.greeting = Label(text="What's your name?")
-        self.window.add_widget(self.greeting)
+        Home_btn = Button(text="Home")
+        stats_btn = Button(text="Statistics")
+        account_btn = Button(text="Account")
 
-        self.user = TextInput(multiline=False)
-        self.window.add_widget(self.user)
+        # VB represents the vertical boxlayout orientation
+        # declared above
 
-        self.button = Button(text="Press to to start recording your voice")
+        HB.add_widget(Home_btn)
+        HB.add_widget(stats_btn)
+        HB.add_widget(account_btn)
 
-        self.button.bind(on_press=self.callback)
-        self.window.add_widget(self.button)
+        # superbox used to again align the oriented widgets
+        superBox.add_widget(VB)
+        superBox.add_widget(HB)
 
-        return self.window
-
-    def callback(self, instance):
-        self.greeting.text = "Hello" + self.user.text + "!"
+        return superBox
 
 
+# creating the object root for BoxLayoutApp() class
+root = BoxLayoutApp()
 
+# run function runs the whole program
+# i.e run() method which calls the
+# target function passed to the constructor.
+root.run()
+
+
+# class SayHello(App):
+#
+#     def build(self):
+#         self.window = GridLayout()
+#         self.window.cols = 1
+#         self.inside = GridLayout()
+#         self.inside.cols = 3
+#
+#
+#         self.window.add_widget(Image(source="youfirst.png"))
+#
+#         # self.greeting = Label(text="What's your name?")
+#         # self.window.add_widget(self.greeting)
+#         #
+#         # self.user = TextInput(multiline=False)
+#         # self.window.add_widget(self.user)
+#
+#         btn = Button(text="Press to to start recording your voice")
+#
+#         # self.button.bind(on_press=self.callback)
+#         self.window.add_widget(btn)
+#         #
+#         # # self.window.window.cols = 3
+#         # self.window.button = Button(text="Home")
+#         #
+#         # # self.button.bind(on_press=self.callback)
+#         # self.window.add_widget(self.window.button)
+#         #
+#         # self.window.button = Button(text="Statistics")
+#         #
+#         # # self.button.bind(on_press=self.callback)
+#         # self.window.add_widget(self.window.button)
+#         #
+#         # self.button = Button(text="Account")
+#         #
+#         # # self.button.bind(on_press=self.callback)
+#         # self.window.add_widget(self.button)
+#
+#         # # layout = GridLayout(cols=3)
+#         # # self.inside.cols = 3
+#         # self.window.cols = 3
+#         btn1 = Button(text="Home")
+#         btn2 = Button(text="Statistics")
+#         btn3 = Button(text="Account")
+#
+#         self.window.add_widget(btn1)
+#         self.window.add_widget(btn2)
+#         self.window.add_widget(btn3)
+#
+#
+#
+#
+#         # self.button = Button(text="Home")
+#         # self.window.add_widget(self.button)
+#         #
+#         # self.button = Button(text="Statistics")
+#         # self.window.add_widget(self.button)
+#         #
+#         # self.button = Button(text="Account")
+#         # self.window.add_widget(self.button)
+#
+#         # self.inside.add_widget(Label(text="First Name: "))
+#         # self.name = TextInput(multiline=False)
+#         # self.inside.add_widget(self.name)
+#         #
+#         # self.inside.add_widget(Label(text="Last Name: "))
+#         # self.lastName = TextInput(multiline=False)
+#         # self.inside.add_widget(self.lastName)
+#         #
+#         # self.inside.add_widget(Label(text="Email: "))
+#         # self.email = TextInput(multiline=False)
+#         # self.inside.add_widget(self.email)
+#
+#         return self.window
+#
+#     def callback(self, instance):
+#         self.greeting.text = "Hello" + self.user.text + "!"
+#
+#
+#
 
 
 
@@ -85,8 +198,8 @@ class SayHello(App):
     #     self.email.text = ""
     #     print("Pressed")
 
-if __name__ == "__main__":
-    SayHello().run()
+# if __name__ == "__main__":
+#     SayHello().run()
 
 
 
