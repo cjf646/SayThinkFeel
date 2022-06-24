@@ -1,4 +1,10 @@
 import kivy
+import urllib
+import bs4
+import pandas as pd
+import numpy as np
+import pickle
+
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen
@@ -6,28 +12,12 @@ from kivy.properties import ObjectProperty
 from kivy.uix.popup import Popup
 from kivy.uix.label import Label
 from kivy.graphics import Color, Rectangle, RoundedRectangle
-import urllib
-from urllib.request import urlopen
-from bs4 import BeautifulSoup as soup
-import pandas as pd
-from sklearn.preprocessing import MinMaxScaler
-import numpy as np
-import pickle
-from datetime import timedelta
-# from kivy_garden.graph import Graph, MeshLinePlot
 from kivy.uix.floatlayout import FloatLayout
-
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.textinput import TextInput
 from kivy.uix.button import Button
 from kivy.uix.widget import Widget
 from kivy.core.window import Window
-#
-#
-# class firstWindow(Screen):
-#     def next(self):
-#         show_popup().open()
-#
 from kivy.app import App
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
@@ -35,6 +25,20 @@ from kivy.uix.image import Image
 from kivy.uix.button import Button
 from kivy.uix.textinput import TextInput
 from kivymd.theming import ThemeManager
+
+from urllib.request import urlopen
+from bs4 import BeautifulSoup as soup
+from sklearn.preprocessing import MinMaxScaler
+from datetime import timedelta
+# from kivy_garden.graph import Graph, MeshLinePlot
+
+#
+#
+# class firstWindow(Screen):
+#     def next(self):
+#         show_popup().open()
+#
+
 # from kivy.uix.button import ButtonBehavior
 # class MainApp(App):
 #     them_cls = ThemeManager()
@@ -65,7 +69,7 @@ class SayHello(App):
         return self.window
 
     def callback(self, instance):
-        self.greeting.text = "Hello" + self.user.text + "!"
+        self.greeting.text = "Hello " + self.user.text + "!"
 
 
 
