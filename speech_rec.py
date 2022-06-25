@@ -319,14 +319,14 @@ def micRecord(r):
         # r.adjust_for_ambient_noise(source)
 
         # for x in range(1):
-        running = 'Y'
-        while running == 'Y':
+        # running = 'Y'
+        # while running == 'Y':
             print("Say now!!!!")
             audio = r.listen(source, phrase_time_limit=5)
         # audio = r.listen(source) #take voice input from the microphone
             text = r.recognize_google(audio)
             print(text) #to print voice into text
-
+    return text
 
 
 # print(pd.read_pickle("a_file.pkl"))

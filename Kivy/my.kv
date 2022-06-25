@@ -1,15 +1,46 @@
-<Widgets>
-    Button:
-        text:   "Press Me"
-        on_release: root.btn()
+<MyGrid>
+    timer:timer
+    GridLayout:
+        cols:1
+        size:root.width - 4, root.height - 4
+        pos:2, 2
+        GridLayout:
+            cols:1
+            Image:
+                source:'youfirst.png'
+        GridLayout:
+            cols:1
+            Label:
+                id:timer
+                text:""
+            Label:
+                id:input
+                text:"input: "
+            Label:
+                id:input
+                text:"sentement: "
+            Label:
+                id:scorechange
+                text:"+/- 1"
 
-<P>:
-    Label:
-        text: "You Pressed the Button"
-        size_hint: 0.6, 0.2
-        pos_hint: {"x":0.2, "top":1}
-
-    Button:
-        text: "Return"
-        size_hint: 0.8, 0.2
-        pos_hint: {"x":0.1, "y":0.1}
+            
+        GridLayout:
+            cols:3
+            Label:
+            Button:
+                on_press:root.countdown()
+                text:"Start"
+            Label:
+        GridLayout:
+            cols:3
+            height: root.height * 0.5
+            Label:
+            Label:
+            Label:
+            Button:
+                size_hint: 1, 0.5
+                text:"Home"
+            Button:
+                text:"Stats"
+            Button:
+                text:"Account"
