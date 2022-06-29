@@ -16,8 +16,9 @@
             Label:
                 id:input
                 text:"input: "
+
             Label:
-                id:input
+                id:input2
                 text:"sentiment: "
             Label:
                 id:scorechange
@@ -28,10 +29,13 @@
             cols:3
             Label:
             Button:
-                on_press:root.countdown()
-                on_press:root.micRecord()
+                id: btn
+                on_press:root.displayResult()
+
+                background_color: 0, 0, 1, 1
                 text:"Start"
             Label:
+
         GridLayout:
             cols:3
             height: root.height * 0.5

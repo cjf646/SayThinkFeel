@@ -216,33 +216,33 @@ import datetime
 #     proc = column.split()
 #     print(proc.head())
 def getPolarity(text):
-    return TextBlob(text).sentiment.polarity
 
+    sentiment = TextBlob(text).sentiment.polarity
+
+    if sentiment < 0:
+        return 'Negative'
+    elif sentiment == 0:
+        return 'Neutral'
+    elif (sentiment > 0) & (sentiment <= 1):
+        return 'Positive'
 
 # def getAnalysis(score):
-#     if score < -0.4:
-#         return 1
-#     elif (score > -0.4) & (score < 0.4):
-#         return 2
-#     else:
-#         return 0
-def getAnalysis(score):
-    if score < 0:
-        return 'Negative'
-    elif score == 0:
-        return 'Neutral'
-    elif (score > 0) & (score <= 1):
-        return 'Positive'
-score = 0
-def positivity_count(text, score):
-    if text > 0:
+#     if score < 0:
+#         return 'Negative'
+#     elif score == 0:
+#         return 'Neutral'
+#     elif (score > 0) & (score <= 1):
+#         return 'Positive'
+# score = 0
+def positivity_count(sent, score):
+    if sent == 'Positive':
         final_score = score + 1
         return final_score
-    elif text < 0:
+    elif sent == 'Negative':
         final_score = score - 1
         return final_score
 
-    elif text == 0:
+    elif sent == 'Neutral':
         final_score = score
         return final_score
 
@@ -312,6 +312,8 @@ def check_Sentiment(sentiment, human_sentiment):
 
 import time
 import speech_recognition as s_r
+r = s_r.Recognizer()
+my_mic = s_r.Microphone(device_index=1)
 
 def micRecord(r):
     with my_mic as source:
@@ -325,18 +327,18 @@ def micRecord(r):
             audio = r.listen(source, phrase_time_limit=5)
         # audio = r.listen(source) #take voice input from the microphone
             text = r.recognize_google(audio)
-            print(text) #to print voice into text
+
+            # print(text) #to print voice into text
     return text
 
 
 # print(pd.read_pickle("a_file.pkl"))
 
-df = pd.DataFrame(columns=['Text', 'Sentiment'])
 # df = pd.DataFrame(columns=['Text', 'Sentiment'])
-index = 0
+# df = pd.DataFrame(columns=['Text', 'Sentiment'])
+# index = 0
     # print(s_r.__version__) # just to print the version not required
-r = s_r.Recognizer()
-my_mic = s_r.Microphone(device_index=1) #my device index is 1, you have to put your device index
+ #my device index is 1, you have to put your device index
 
 # with my_mic as source:
 #
@@ -363,8 +365,8 @@ my_mic = s_r.Microphone(device_index=1) #my device index is 1, you have to put y
 #         # check_df_updated_sentiment = check_df(text, saved)
 #
 #
-#         sent = getPolarity(text)
-#         sentiment = getAnalysis(sent)
+#         sentiment = getPolarity(text)
+#
 #         subjective = getSubjectivity(text)
 #
 #
@@ -380,7 +382,7 @@ my_mic = s_r.Microphone(device_index=1) #my device index is 1, you have to put y
 #         check = check_Sentiment(sentiment, human_sentiment)
 #         if check == 'GOOD':
 #             print("Correct sentiment")
-#             count = positivity_count(sent, score)
+#             count = positivity_count(text, score)
 #             score = count
 #             print("Your score is at: ", count)
 #         elif check != 'GOOD':
@@ -422,7 +424,7 @@ my_mic = s_r.Microphone(device_index=1) #my device index is 1, you have to put y
 #         print(date)
 #         print(pd.read_pickle("a_file.pkl"))
 #         running = (input('Run again? Y or N:  '))
-
+#
 
 
 

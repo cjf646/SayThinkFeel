@@ -97,20 +97,64 @@ from speech_rec import *
 
 
 class MyGrid(Widget):
+    score = 0
     # timer = ObjectProperty(None)
 
-    def countdown(self):
-        self.timer.text = "Results"
-        # display = self.ids.input.text
+    # def countdown(self):
+    #     # self.timer.text = "Results"
+    #     self.ids.input.text = "okayyyyy"
+        # return micRecord()
         #
         # self.ids.on_press.text = display
-    def micRecord(self, *args):
-        micRecord(r)
-    def displayInput(self):
-        display = self.ids.input.text
 
-        self.ids.micRecord(r).text = display
-        return display
+    # def __init__(self, **kwargs):
+    #     super(MyGrid, self).__init__(**kwargs)
+    #     self.lbl = self.ids['input']
+    #     self.btn = self.ids['btn']
+
+
+    def displayResult(self):
+        # change_btn = self.ids.btn.text
+        # self.ids.btn.text = "Start Speaking"
+        score = 0
+        text = micRecord(r)
+        sent = getPolarity(text)
+        new_score = positivity_count(sent, score)
+
+        self.ids.scorechange.text = f'Score: {new_score}'
+        self.ids.input2.text = f'Sentiment: {sent}'
+        # show_text = self.ids.btn.text
+        self.ids.input.text = f'Input: {text}'
+        return text
+        # analysis()
+
+        # print(show_text)
+
+    # def analysis(text):
+    #     text = change_lbl(text)
+    #     sent = getPolarity(text)
+    #     self.ids.input2.text = f'Sentiment: {sent}'
+
+
+
+
+
+        # display(self, text)
+
+    # def display(self, text):
+    #     self.lbl.text = self.text
+    # def micRecord(self, *args):
+    #      micRecord(r)
+
+
+    # def set_text(self, Text):
+    #     self.root.ids.input.text = out_encrypt
+    # def displayInput(self):
+    #     display = self.ids.input.text
+    #
+    #     self.ids.micRecord(r).text = display
+    #     return display
+    #
 
 class MyApp(App):
     def build(self):
