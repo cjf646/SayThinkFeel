@@ -37,10 +37,11 @@ from datetime import timedelta
 from kivy.uix.image import Image
 from kivy.uix.button import Button
 from kivy.app import App
-
+from kivy.uix.spinner import Spinner
 # importing boxlayout for our application
 from kivy.uix.boxlayout import BoxLayout
-from speech_rec import *
+from sentiment import *
+
 # class BoxLayoutApp(App):
 #
 #     def build(self):
@@ -116,16 +117,52 @@ class MyGrid(Widget):
     def displayResult(self):
         # change_btn = self.ids.btn.text
         # self.ids.btn.text = "Start Speaking"
+        df = pd.DataFrame(columns=['Date', 'Time', 'Sentence', 'Sentiment', 'Points'])
+        # self.ids.label.text = 'Recording on'
         score = 0
         text = micRecord(r)
         sent = getPolarity(text)
-        new_score = positivity_count(sent, score)
+        score_count = positivity_count(sent, score)
 
-        self.ids.scorechange.text = f'Score: {new_score}'
-        self.ids.input2.text = f'Sentiment: {sent}'
+        self.ids.scorechange.text = f'Score: {score_count}'
+        self.ids.input2.text = f'{sent}'
         # show_text = self.ids.btn.text
-        self.ids.input.text = f'Input: {text}'
-        return text
+        self.ids.input.text = f'{text}'
+
+        data = dataStore(df, text, sent, score_count)
+        self.ids.totalscore.text = f'Todays score: {data}'
+        # self.ids.spinner_id.text = f'Press to start recording again...'
+        # return sent
+        # self.ids.spinner_id.text = f'{value}'
+
+    def store(self, human_sentiment, sent, input):
+         # self.ids.spinner_id.text = human_sentiment
+        # self.ids.input2.text = sent
+        # check = check_sentiment(sentiment, human_sentiment)
+        # self.ids.input2.text = f'{sent}'
+
+        print(input)
+        # print(sent)
+        # print(human_sentiment)
+
+
+        print(check_Sentiment(sent, human_sentiment, input))
+        self.ids.spinner_id.text = 'Press to run again...'
+        # store_reclassfied_sent = storeNewSentiment(check)
+
+        # self.ids.spinner_id.text = f'Press to start recording again...'
+        # check_Sentiment(sentiment, human_sentiment)
+        # print(sent)
+        # if value == sent:
+        #     print("Sentiment are equal")
+        # else:
+        #     print("Sentiment WRONG")
+
+            # return MyGrid()
+
+
+    # def sentiment_clicked(self, value):
+    #     self.ids.click_label.text = f'{value}'
         # analysis()
 
         # print(show_text)

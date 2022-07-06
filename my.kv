@@ -2,7 +2,7 @@
     timer:timer
     GridLayout:
         cols:1
-        size:root.width - 4, root.height - 4
+        size:root.width - 4, root.height - 5
         pos:2, 2
         GridLayout:
             cols:1
@@ -22,24 +22,33 @@
                 text:"sentiment: "
             Label:
                 id:scorechange
-                text:"+/- 1"
-
+                text:"+/- 1 "
+            Label:
+                id:totalscore
+                text:"Today's Score: "
+            Label:
+                id:label
+                text: "Press start below to begin recording"
 
         GridLayout:
             cols:3
             Label:
-            Button:
-                id: btn
-                on_press:root.displayResult()
+            Spinner:
+                id: spinner_id
+                text: "Start"
+                on_press: root.displayResult()
+                values: ["Positive", "Negative", "Neutral"]
+                on_text: root.store(spinner_id.text, input2.text, input.text)
 
-                background_color: 0, 0, 1, 1
-                text:"Start"
             Label:
+
+
 
         GridLayout:
             cols:3
             height: root.height * 0.5
             Label:
+                text:"Home"
             Label:
             Label:
             Button:

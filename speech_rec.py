@@ -8,13 +8,14 @@ from nltk.corpus import stopwords
 from textblob import TextBlob
 import pickle
 
+
 from nltk.stem.porter import PorterStemmer
 from nltk.tokenize import word_tokenize
 stemmer = PorterStemmer()
 import time
 import speech_recognition as sr
 import pyttsx3 as s
-
+from datetime import datetime
 
 import nltk
 # nltk.download()
@@ -23,6 +24,10 @@ import numpy as np
 import re
 from transformers import pipeline
 import datetime
+
+
+import pymongo
+from pymongo import MongoClient
 
 # data = pd.read_csv("tweet_emotions.csv")
 # # sent = pd.DataFrame(data)
@@ -234,13 +239,14 @@ def getPolarity(text):
 #     elif (score > 0) & (score <= 1):
 #         return 'Positive'
 # score = 0
+
 def positivity_count(sent, score):
     if sent == 'Positive':
         final_score = score + 1
-        return final_score
+        return f'{final_score}'
     elif sent == 'Negative':
         final_score = score - 1
-        return final_score
+        return f'{final_score}'
 
     elif sent == 'Neutral':
         final_score = score
@@ -330,6 +336,48 @@ def micRecord(r):
 
             # print(text) #to print voice into text
     return text
+
+def dataStore(df, text, sent, score_count):
+
+    tim = time.localtime()
+    current_time = time.strftime("%H:%M:%S", tim)
+
+    date = datetime.date.today()
+    index = 0
+    # df.to_pickle("file.pkl")
+    saved = pd.read_pickle("file.pkl")
+    df.loc[index] = date, current_time, text, sent, score_count
+    updated_df = pd.concat([df, saved])
+    updated_df.to_pickle("file.pkl")
+    saved = pd.read_pickle("file.pkl")
+    saved['Points'] = pd.to_numeric(saved['Points'])
+    Total_Day_Points = (saved.loc[saved['Date'] == date, 'Points']).sum()
+
+    # if df.loc[date] == date:
+    #     total_points = saved['Points'].sum()
+    #     print(total_points)
+    # updated_df = pd.concat([df, saved])
+    # new_df = updated_df.to_pickle('test_pickle.p')
+    # print(new_df)
+    print(saved)
+    print(Total_Day_Points)
+    return Total_Day_Points
+    # return total_points
+    # saved = pd.read_pickle("a_file.pkl")
+    #
+    #
+    #
+    #
+    #             # df.to_pickle("a_file.pkl")
+    #             #
+    #             # print(saved)
+    #
+    #
+    #             # updated_df = pd.concat([df, saved])
+    #             # updated_df.to_pickle("a_file.pkl")
+
+
+    # columns = ['Time', 'Sentence', 'Sentiment', 'Points']
 
 
 # print(pd.read_pickle("a_file.pkl"))
