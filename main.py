@@ -42,62 +42,23 @@ from kivy.uix.spinner import Spinner
 from kivy.uix.boxlayout import BoxLayout
 from sentiment import *
 
-# class BoxLayoutApp(App):
-#
-#     def build(self):
-#         # To position oriented widgets again in the proper orientation
-#         # use of vertical orientation to set all widgets
-#         superBox = BoxLayout(orientation='vertical')
-#
-#         # To position widgets next to each other,
-#         # use a horizontal BoxLayout.
-#         VB = BoxLayout(orientation='vertical')
-#         image = Image(source="youfirst.png")
-#         Start_recording_btn = Button(text="Press to to start recording your voice")
-#         # btn1 = Button(text="One")
-#         # btn2 = Button(text="Two")
-#
-#         # HB represents the horizontal boxlayout orientation
-#         # declared above
-#         VB.add_widget(image)
-#         VB.add_widget(Start_recording_btn)
-#         # VB.add_widget(btn1)
-#         # VB.add_widget(btn2)
-#
-#         # To position widgets above/below each other,
-#         # use a vertical BoxLayout.
-#         HB = BoxLayout(orientation='horizontal', spacing=1, size_hint=(1,0.1))
-#
-#
-#         Home_btn = Button(text="Home")
-#         stats_btn = Button(text="Statistics")
-#         account_btn = Button(text="Account")
-#
-#         # VB represents the vertical boxlayout orientation
-#         # declared above
-#
-#         HB.add_widget(Home_btn)
-#         HB.add_widget(stats_btn)
-#         HB.add_widget(account_btn)
-#
-#         # superbox used to again align the oriented widgets
-#         superBox.add_widget(VB)
-#         superBox.add_widget(HB)
-#
-#         return superBox
-#
-#
-#
-# # creating the object root for BoxLayoutApp() class
-# root = BoxLayoutApp()
-#
-# # run function runs the whole program
-# # i.e run() method which calls the
-# # target function passed to the constructor.
-# root.run()
+
+class FirstWindow(Screen):
+    pass
+
+class SecondWindow(Screen):
+     pass
+
+class SignInWindow(Screen):
+    pass
+
+# class WindowManager(ScreenManager):
+#     pass
 
 
-class MyGrid(Widget):
+
+
+class MyGrid2(Screen):
     score = 0
     # timer = ObjectProperty(None)
 
@@ -115,39 +76,57 @@ class MyGrid(Widget):
 
 
     def displayResult(self):
-        # change_btn = self.ids.btn.text
-        # self.ids.btn.text = "Start Speaking"
         df = pd.DataFrame(columns=['Date', 'Time', 'Sentence', 'Sentiment', 'Points'])
-        # self.ids.label.text = 'Recording on'
         score = 0
         text = micRecord(r)
+
         sent = getPolarity(text)
         score_count = positivity_count(sent, score)
 
         self.ids.scorechange.text = f'Score: {score_count}'
         self.ids.input2.text = f'{sent}'
-        # show_text = self.ids.btn.text
         self.ids.input.text = f'{text}'
 
+        # human_sentiment = self.ids.spinner_id.text
+        #
+        # checking_sentiment = check_Sentiment(sent, human_sentiment, text)
+        # if checking_sentiment == 'GOOD':
         data = dataStore(df, text, sent, score_count)
         self.ids.totalscore.text = f'Todays score: {data}'
-        # self.ids.spinner_id.text = f'Press to start recording again...'
-        # return sent
-        # self.ids.spinner_id.text = f'{value}'
+        #
+        # else:
+        #     self.ids.totalscore.text = f'Todays score: {data}'
+        #     self.ids.input2.text = checking_sentiment
+
+
+
+
+
+
+
+
+
 
     def store(self, human_sentiment, sent, input):
-         # self.ids.spinner_id.text = human_sentiment
+        # self.ids.spinner_id.text = human_sentiment
         # self.ids.input2.text = sent
         # check = check_sentiment(sentiment, human_sentiment)
         # self.ids.input2.text = f'{sent}'
-
         print(input)
         # print(sent)
         # print(human_sentiment)
 
+        print(human_sentiment)
 
         print(check_Sentiment(sent, human_sentiment, input))
-        self.ids.spinner_id.text = 'Press to run again...'
+        # self.ids.input2.text = f'NEW SENTIMENT: {human_sentiment}'
+        # The line below seems to be running the "check_Sentiment function above again
+        # self.ids.spinner_id.text = "Press: "
+        print(human_sentiment)
+
+        # start_again = reset()
+
+
         # store_reclassfied_sent = storeNewSentiment(check)
 
         # self.ids.spinner_id.text = f'Press to start recording again...'
@@ -159,6 +138,12 @@ class MyGrid(Widget):
         #     print("Sentiment WRONG")
 
             # return MyGrid()
+
+class emotionalIntelligence(Screen):
+    pass
+
+
+
 
 
     # def sentiment_clicked(self, value):
@@ -193,10 +178,19 @@ class MyGrid(Widget):
     #     return display
     #
 
+
+# kv = Builder.load_file('my.kv')
+
 class MyApp(App):
     def build(self):
-        return MyGrid()
+        sm = ScreenManager()
+        sm.add_widget(FirstWindow(name="FirstWindow"))
+        sm.add_widget(MyGrid2(name="MyGrid2"))
+        sm.add_widget(SecondWindow(name="SecondWindow"))
+        sm.add_widget(SignInWindow(name="SignIn Window"))
+        sm.add_widget(emotionalIntelligence(name="emotionalIntelligence"))
 
+        return sm
 
 if __name__ == "__main__":
     MyApp().run()

@@ -1,4 +1,59 @@
-<MyGrid>
+FirstWindow:
+
+<FirstWindow>:
+
+    GridLayout:
+        cols:1
+        size:root.width - 4, root.height - 5
+        pos:2, 2
+        GridLayout:
+            cols:1
+            Image:
+                source:'youfirst.png'
+        GridLayout:
+            cols:2
+
+            Label:
+
+            Label:
+
+
+            Label:
+
+            Label:
+
+
+            Button:
+                id:signin
+                text:"Sign In"
+                on_press:
+                    root.manager.current = "SecondWindow"
+            Button:
+                id:signup
+                text:"Sign Up"
+                on_press:
+                    root.manager.current = "SecondWindow"
+
+
+
+<SecondWindow>:
+    GridLayout:
+        cols: 1
+
+        Label:
+            text: "Select what you would like to play"
+
+
+        Button:
+            text: "go to sentiment game"
+            on_press:
+                root.manager.current = "MyGrid2"
+        Button:
+            text: "Recognize How You Feel"
+            on_press:
+                root.manager.current = "emotionalIntelligence"
+
+<MyGrid2>
     timer:timer
     GridLayout:
         cols:1
@@ -36,9 +91,11 @@
             Spinner:
                 id: spinner_id
                 text: "Start"
+
                 on_press: root.displayResult()
                 values: ["Positive", "Negative", "Neutral"]
                 on_text: root.store(spinner_id.text, input2.text, input.text)
+
 
             Label:
 
@@ -48,13 +105,37 @@
             cols:3
             height: root.height * 0.5
             Label:
-                text:"Home"
+                text:
             Label:
             Label:
             Button:
                 size_hint: 1, 0.5
                 text:"Home"
+                on_press:
+                    root.manager.current = "FirstWindow"
             Button:
                 text:"Stats"
             Button:
                 text:"Account"
+
+
+<emotionalIntelligence>
+    GridLayout:
+        cols: 1
+
+        Label:
+            text: "How are you feeling right now?"
+
+
+        Button:
+            text: "Happy"
+            on_press:
+                root.manager.current = "FirstWindow"
+        Button:
+            text: "Extremely Happy"
+            on_press:
+                root.manager.current = "FirstWindow"
+        Button:
+            text: "Other"
+            on_press:
+                root.manager.current = "FirstWindow"
