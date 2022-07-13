@@ -1,4 +1,3 @@
-#library that contains punctuation
 import string
 string.punctuation
 from nltk.tokenize import word_tokenize
@@ -58,7 +57,7 @@ def getSubjectivity(text):
 def check_Sentiment(sent, human_sentiment, input):
     if sent == human_sentiment:
         # print("GOOD CLASSIFICATION")
-        return 'GOOD'
+        return sent
     else:
         score_count = newScore(human_sentiment)
         df2 = pd.DataFrame(columns=['Date', 'Time', 'Sentence', 'Sentiment', 'Points'])
@@ -67,12 +66,12 @@ def check_Sentiment(sent, human_sentiment, input):
 
         date = datetime.date.today()
         index = 0
-        # df2.to_pickle("file_check.pkl")
-        saved = pd.read_pickle("file_check.pkl")
+        # df2.to_pickle("check.pkl")
+        saved = pd.read_pickle("check.pkl")
         df2.loc[index] = date, current_time, input, human_sentiment, score_count
         updated_df2 = pd.concat([df2, saved])
-        updated_df2.to_pickle("file_check.pkl")
-        saved = pd.read_pickle("file_check.pkl")
+        updated_df2.to_pickle("check.pkl")
+        saved = pd.read_pickle("check.pkl")
 
         print(saved)
     return human_sentiment
@@ -120,3 +119,6 @@ def dataStore(df, text, sent, score_count):
     print(saved)
     print(Total_Day_Points)
     return Total_Day_Points
+
+
+

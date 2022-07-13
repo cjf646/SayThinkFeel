@@ -41,7 +41,7 @@ from kivy.uix.spinner import Spinner
 # importing boxlayout for our application
 from kivy.uix.boxlayout import BoxLayout
 from sentiment import *
-
+from Emotion import *
 
 class FirstWindow(Screen):
     pass
@@ -52,6 +52,14 @@ class SecondWindow(Screen):
 class SignInWindow(Screen):
     pass
 
+class emotionalIntelligence(Screen):
+
+    def emotionsSaved(self, emotion):
+
+        df_emotion = pd.DataFrame(columns=['Date', 'Time', 'Emotion'])
+
+        emotion_data = emotionSaved(df_emotion, emotion)
+
 # class WindowManager(ScreenManager):
 #     pass
 
@@ -60,20 +68,6 @@ class SignInWindow(Screen):
 
 class MyGrid2(Screen):
     score = 0
-    # timer = ObjectProperty(None)
-
-    # def countdown(self):
-    #     # self.timer.text = "Results"
-    #     self.ids.input.text = "okayyyyy"
-        # return micRecord()
-        #
-        # self.ids.on_press.text = display
-
-    # def __init__(self, **kwargs):
-    #     super(MyGrid, self).__init__(**kwargs)
-    #     self.lbl = self.ids['input']
-    #     self.btn = self.ids['btn']
-
 
     def displayResult(self):
         df = pd.DataFrame(columns=['Date', 'Time', 'Sentence', 'Sentiment', 'Points'])
@@ -93,93 +87,14 @@ class MyGrid2(Screen):
         # if checking_sentiment == 'GOOD':
         data = dataStore(df, text, sent, score_count)
         self.ids.totalscore.text = f'Todays score: {data}'
-        #
-        # else:
-        #     self.ids.totalscore.text = f'Todays score: {data}'
-        #     self.ids.input2.text = checking_sentiment
-
-
-
-
-
-
-
-
-
 
     def store(self, human_sentiment, sent, input):
-        # self.ids.spinner_id.text = human_sentiment
-        # self.ids.input2.text = sent
-        # check = check_sentiment(sentiment, human_sentiment)
-        # self.ids.input2.text = f'{sent}'
         print(input)
-        # print(sent)
-        # print(human_sentiment)
-
         print(human_sentiment)
-
-        print(check_Sentiment(sent, human_sentiment, input))
-        # self.ids.input2.text = f'NEW SENTIMENT: {human_sentiment}'
-        # The line below seems to be running the "check_Sentiment function above again
-        # self.ids.spinner_id.text = "Press: "
-        print(human_sentiment)
-
-        # start_again = reset()
-
-
-        # store_reclassfied_sent = storeNewSentiment(check)
-
-        # self.ids.spinner_id.text = f'Press to start recording again...'
-        # check_Sentiment(sentiment, human_sentiment)
-        # print(sent)
-        # if value == sent:
-        #     print("Sentiment are equal")
-        # else:
-        #     print("Sentiment WRONG")
-
-            # return MyGrid()
-
-class emotionalIntelligence(Screen):
-    pass
+        check_Sentiment(sent, human_sentiment, input)
 
 
 
-
-
-    # def sentiment_clicked(self, value):
-    #     self.ids.click_label.text = f'{value}'
-        # analysis()
-
-        # print(show_text)
-
-    # def analysis(text):
-    #     text = change_lbl(text)
-    #     sent = getPolarity(text)
-    #     self.ids.input2.text = f'Sentiment: {sent}'
-
-
-
-
-
-        # display(self, text)
-
-    # def display(self, text):
-    #     self.lbl.text = self.text
-    # def micRecord(self, *args):
-    #      micRecord(r)
-
-
-    # def set_text(self, Text):
-    #     self.root.ids.input.text = out_encrypt
-    # def displayInput(self):
-    #     display = self.ids.input.text
-    #
-    #     self.ids.micRecord(r).text = display
-    #     return display
-    #
-
-
-# kv = Builder.load_file('my.kv')
 
 class MyApp(App):
     def build(self):

@@ -123,19 +123,15 @@ FirstWindow:
     GridLayout:
         cols: 1
 
+        Spinner:
+            id: spin_id
+            text: "Press down to choose how you are feeling right now"
+
+
+            values: ["Happy","Content", "Sad", "Surprised", "Excited", "Angry", "Tired"]
+            on_text: root.emotionsSaved(spin_id.text)
+
         Label:
-            text: "How are you feeling right now?"
+        Label:
 
 
-        Button:
-            text: "Happy"
-            on_press:
-                root.manager.current = "FirstWindow"
-        Button:
-            text: "Extremely Happy"
-            on_press:
-                root.manager.current = "FirstWindow"
-        Button:
-            text: "Other"
-            on_press:
-                root.manager.current = "FirstWindow"
