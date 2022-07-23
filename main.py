@@ -5,6 +5,7 @@ import pandas as pd
 import numpy as np
 import pickle
 
+
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen
@@ -12,7 +13,7 @@ from kivy.properties import ObjectProperty
 from kivy.uix.popup import Popup
 from kivy.uix.label import Label
 from kivy.graphics import Color, Rectangle, RoundedRectangle
-from kivy.uix.floatlayout import FloatLayout
+
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.textinput import TextInput
 from kivy.uix.button import Button
@@ -42,6 +43,73 @@ from kivy.uix.spinner import Spinner
 from kivy.uix.boxlayout import BoxLayout
 from sentiment import *
 from Emotion import *
+from statistics import *
+# from graphs import *
+
+from kivymd.uix.textfield import MDTextField
+import kivymd
+
+
+from kivymd.theming import ThemeManager
+from kivy.core.window import Window
+
+
+
+# Graph Dependencies
+from kivy.lang import Builder
+from kivymd.app import MDApp
+from kivy.uix.floatlayout import FloatLayout
+from kivy.garden.matplotlib.backend_kivyagg import FigureCanvasKivyAgg
+import matplotlib.pyplot as plt
+
+
+
+# from kivy.uix.colorpicker import ColorPickerApp
+
+# x = [1,2,3,4,5]
+# y = [5, 12, 6, 9, 15]
+#
+# plt.plot(x,y)
+# plt.ylabel("This is MY Y Axis")
+# plt.xlabel("X Axis")
+
+
+
+# class Matty(Screen):
+#     def __init__(self, **kwargs):
+#         super().__init__(**kwargs)
+#         # sentimentPoints()
+#         # x = data['Date']
+#         # y = data['Points']
+#         # plt.plot(x, y)
+#         # plt.ylabel("fhff")
+#         #  plt.xlabel("fnif")
+#         sentimentPoints()
+#         box = self.ids.box
+#         box.add_widget(FigureCanvasKivyAgg(plt.gcf()))
+
+
+    # def displayGraph(self):
+
+        # graph1 = sentimentPoints()
+        # self.ids.box.add_widget(FigureCanvasKivyAgg(plt.gcf()))
+        # self.ids.box = f'{graph1}'
+
+
+
+#     def save_it(self):
+#         pass
+
+
+
+
+
+
+
+
+
+
+
 
 class FirstWindow(Screen):
     pass
@@ -60,11 +128,23 @@ class emotionalIntelligence(Screen):
 
         emotion_data = emotionSaved(df_emotion, emotion)
 
+
+class Statistics(Screen):
+    pass
+    # def statisticsView(self):
+
+class SignInSignUp(Screen):
+    pass
+
 # class WindowManager(ScreenManager):
 #     pass
 
+# class colorSelector(Screen):
+#
+#     selected_color = [0,0,1,1]
 
-
+class MyEmotionPopup(Screen):
+    pass
 
 class MyGrid2(Screen):
     score = 0
@@ -88,6 +168,8 @@ class MyGrid2(Screen):
         data = dataStore(df, text, sent, score_count)
         self.ids.totalscore.text = f'Todays score: {data}'
 
+
+
     def store(self, human_sentiment, sent, input):
         print(input)
         print(human_sentiment)
@@ -96,16 +178,39 @@ class MyGrid2(Screen):
 
 
 
-class MyApp(App):
+
+class MyApp(MDApp):
     def build(self):
+
         sm = ScreenManager()
-        sm.add_widget(FirstWindow(name="FirstWindow"))
+        sm.add_widget(SignInSignUp(name="SignInSignUp"))
         sm.add_widget(MyGrid2(name="MyGrid2"))
         sm.add_widget(SecondWindow(name="SecondWindow"))
-        sm.add_widget(SignInWindow(name="SignIn Window"))
+        sm.add_widget(SignInWindow(name="SignInWindow"))
         sm.add_widget(emotionalIntelligence(name="emotionalIntelligence"))
+        sm.add_widget(Statistics(name="Statistics"))
+        self.theme_cls.theme_style = "Dark"
+        self.theme_cls.primary_palette = "BlueGray"
+        sm.add_widget(MyEmotionPopup(name="MyEmotionPopup"))
+        # sm.add_widget(FigureCanvasKivyAgg(plt.gcf()))
+        # sm.add_widget(Matty(name="Matty"))
 
+
+
+        # sm.add_widget(Popup(name="Popup"))
+        # sm.add_widget(SignIn(name="SignIn"))
+        # sm.add_widget(Matty(name="Matty"))
+        # box = self.ids.box
+        # sm.add_widget(FigureCanvasKivyAgg(plt.gcf()))
         return sm
+
+    def emotionpopup(self):
+        pass
+
+    # def MyMDCard(self):
+    #     self.theme_cls.theme_style = "Dark"
+    #     self.theme_cls.primary_palette = "BlueGray"
+    #     return Builder.load_file('my.kv')
 
 if __name__ == "__main__":
     MyApp().run()

@@ -1,9 +1,19 @@
-FirstWindow:
+#:import Factory kivy.factory.Factory
 
-<FirstWindow>:
 
+
+SignInSignUp:
+
+<SignInSignUp>:
+    canvas.before:
+        Color:
+            rgba: (0,0,0,1)
+        Rectangle:
+            pos: self.pos
+            size: self.size
     GridLayout:
         cols:1
+
         size:root.width - 4, root.height - 5
         pos:2, 2
         GridLayout:
@@ -12,17 +22,11 @@ FirstWindow:
                 source:'youfirst.png'
         GridLayout:
             cols:2
-
             Label:
 
             Label:
-
-
             Label:
-
             Label:
-
-
             Button:
                 id:signin
                 text:"Sign In"
@@ -31,13 +35,24 @@ FirstWindow:
             Button:
                 id:signup
                 text:"Sign Up"
-                on_press:
-                    root.manager.current = "SecondWindow"
+                on_release:
+                    root.add_widget(Factory.MyMDCard())
+
+
+
+
 
 
 
 <SecondWindow>:
+    canvas.before:
+        Color:
+            rgba: (0,0,0,1)
+        Rectangle:
+            pos: self.pos
+            size: self.size
     GridLayout:
+
         cols: 1
 
         Label:
@@ -52,17 +67,49 @@ FirstWindow:
             text: "Recognize How You Feel"
             on_press:
                 root.manager.current = "emotionalIntelligence"
+        Label:
+        Label:
+
+    GridLayout:
+        cols:3
+        height: root.height * 0.5
+        Label:
+            text:
+        Label:
+        Label:
+        Button:
+            size_hint: 1, 0.05
+            text:"Home"
+            height: 50
+            size_hint_y: None
+            on_press:
+                root.manager.current = "SignInSignUp"
+        Button:
+            text:"Stats"
+
+            height: 50
+            size_hint_y: None
+        Button:
+            text:"Account"
+
+            height: 50
+            size_hint_y: None
 
 <MyGrid2>
+    canvas.before:
+        Color:
+            rgba: (0,0,0,1)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
     timer:timer
-    GridLayout:
-        cols:1
-        size:root.width - 4, root.height - 5
-        pos:2, 2
-        GridLayout:
-            cols:1
-            Image:
-                source:'youfirst.png'
+    BoxLayout:
+        orientation: 'vertical'
+
+        MDToolbar:
+            title: 'Demo'
+
         GridLayout:
             cols:1
             Label:
@@ -103,7 +150,7 @@ FirstWindow:
 
         GridLayout:
             cols:3
-            height: root.height * 0.5
+            height: root.height * .5
             Label:
                 text:
             Label:
@@ -112,26 +159,100 @@ FirstWindow:
                 size_hint: 1, 0.5
                 text:"Home"
                 on_press:
-                    root.manager.current = "FirstWindow"
+                    root.manager.current = "SecondWindow"
             Button:
                 text:"Stats"
+                on_press:
+                    root.manager.current = "SecondWindow"
             Button:
                 text:"Account"
 
 
+<MyMDCard@MDCard>
+
+    MDCard:
+
+        size_hint: None, None
+        size: 300, 400
+        pos_hint: {"center_x": 0.5, "center_y": 0.5}
+        elevation: 10
+        padding: 25
+        spacing: 25
+        halign: 'center'
+        orientation: 'vertical'
+
+        MDLabel:
+            id: welcome_label
+            text: "WELCOME"
+            font_size: 40
+            halign: 'center'
+            size_hint_y: None
+            height: self.texture_size[1]
+            padding_y: 15
+
+
+
+
+
 <emotionalIntelligence>
+    canvas.before:
+        Color:
+            rgba: (0,0,0,1)
+        Rectangle:
+            pos: self.pos
+            size: self.size
     GridLayout:
         cols: 1
 
         Spinner:
             id: spin_id
-            text: "Press down to choose how you are feeling right now"
+            text: "Press this text to choose how you are feeling right now"
 
 
             values: ["Happy","Content", "Sad", "Surprised", "Excited", "Angry", "Tired"]
             on_text: root.emotionsSaved(spin_id.text)
-
+            on_text:
+                Factory.MyPopup().open()
         Label:
         Label:
+        Button:
+            text: "Back"
+            width: 50
+            height: 50
+            size_hint_y: None
+            size_hint_x: None
+            on_press: root.manager.current = "SecondWindow"
 
+<MyPopup@Popup>
+    auto_dismiss: False
+    size_hint: 0.6, 0.2
+    pos_hint: {"x": 0.2, "top": 0.9}
+    title: "Nice!!!!!!"
+    BoxLayout:
+
+
+        Button:
+            text: "Close MEEEEE"
+            font_size: 24
+            on_release: root.dismiss()
+
+
+<Matty>
+
+	BoxLayout:
+		id: box
+		size_hint_y: .8
+		pos_hint: {"top":1}
+
+
+	BoxLayout:
+		size_hint_y: .2
+
+		Button:
+		    id:bttn
+		    text:"Go Back"
+		    on_release: root.manager.current = "SecondWindow"
+		TextInput:
+			id: namer
+			multiline: False
 

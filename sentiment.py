@@ -26,6 +26,13 @@ import pymongo
 from pymongo import MongoClient
 
 
+from datetime import date, timedelta
+
+import matplotlib.pyplot as plt
+
+
+
+
 def getPolarity(text):
     sentiment = TextBlob(text).sentiment.polarity
     if sentiment < 0:
@@ -106,6 +113,7 @@ def dataStore(df, text, sent, score_count):
     current_time = time.strftime("%H:%M:%S", tim)
 
     date = datetime.date.today()
+
     index = 0
     # df.to_pickle("file.pkl")
     saved = pd.read_pickle("file.pkl")
@@ -115,10 +123,37 @@ def dataStore(df, text, sent, score_count):
     saved = pd.read_pickle("file.pkl")
     saved['Points'] = pd.to_numeric(saved['Points'])
     Total_Day_Points = (saved.loc[saved['Date'] == date, 'Points']).sum()
+    All_Time_Points = saved['Points'].sum()
+    print("Your all time score is: ", All_Time_Points)
     # All_time_Points = saved['Points'].sum()
-    print(saved)
-    print(Total_Day_Points)
+    print("Your day score is: ", Total_Day_Points)
+    print(date)
+
+    date_grouped = saved.groupby('Date')['Points'].sum()
+    print(date_grouped)
+
+    # date_grouped.plot(x='Date', y='Points', kind='bar')
+    # plt.show()
+
+
+    saved['Date'] = pd.to_datetime(saved['Date']) - pd.to_timedelta(7, unit='d')
+
+    # calculate sum of values, grouped by week
+    week = saved.groupby([pd.Grouper(key='Date', freq='W')])['Points'].sum()
+    print(week)
+
+
+
+
+    # print(saved)
+    # print(Total_Day_Points)
     return Total_Day_Points
 
 
 
+
+# def score(df):
+#     saved = pd.read_pickle("file.pkl")
+#     # saved['Points'] = pd.to_numeric(saved['Points'])
+#     All_Time_Points = saved.loc['Points'].sum()
+#     print("Your all time score is: ", All_Time_Points)

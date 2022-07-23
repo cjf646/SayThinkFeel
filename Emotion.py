@@ -32,7 +32,7 @@ def emotionSaved(df_emotion, emotion):
 
     date = datetime.date.today()
     index = 0
-    df_emotion.to_pickle("file2.pkl")
+    # df_emotion.to_pickle("file2.pkl")
     saved2 = pd.read_pickle("file2.pkl")
     df_emotion.loc[index] = date, current_time, emotion
     updated_df = pd.concat([df_emotion, saved2])
