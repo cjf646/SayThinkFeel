@@ -75,18 +75,13 @@ import matplotlib.pyplot as plt
 
 
 
-# class Matty(Screen):
-#     def __init__(self, **kwargs):
-#         super().__init__(**kwargs)
-#         # sentimentPoints()
-#         # x = data['Date']
-#         # y = data['Points']
-#         # plt.plot(x, y)
-#         # plt.ylabel("fhff")
-#         #  plt.xlabel("fnif")
-#         sentimentPoints()
-#         box = self.ids.box
-#         box.add_widget(FigureCanvasKivyAgg(plt.gcf()))
+class statPage(Screen):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+        sentimentPoints()
+        box = self.ids.box
+        box.add_widget(FigureCanvasKivyAgg(plt.gcf()))
 
 
     # def displayGraph(self):
@@ -193,7 +188,7 @@ class MyApp(MDApp):
         self.theme_cls.primary_palette = "BlueGray"
         sm.add_widget(MyEmotionPopup(name="MyEmotionPopup"))
         # sm.add_widget(FigureCanvasKivyAgg(plt.gcf()))
-        # sm.add_widget(Matty(name="Matty"))
+        sm.add_widget(statPage(name="statPage"))
 
 
 
