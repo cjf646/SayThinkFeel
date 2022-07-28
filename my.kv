@@ -31,7 +31,7 @@ SignInSignUp:
                 id:signin
                 text:"Sign In"
                 on_press:
-                    root.manager.current = "SecondWindow"
+                    root.manager.current = "SignIn"
             Button:
                 id:signup
                 text:"Sign Up"
@@ -40,9 +40,131 @@ SignInSignUp:
 
 
 
+<SignIn>
+    MDScreen:
+        md_bg_color: [35/255, 59/255, 54/255,1]
+        MDCard:
+            size_hint: None, None
+            size: 250, 450
+            pos_hint: {"center_x": .5, "center_y": .5}
+            elevation: 15
+            md_bg_color: [35/255, 49/255, 48/255,1]
+            padding: 20
+            spacing: 30
+            orientation: 'vertical'
+
+            MDLabel:
+                text: 'LOGIN'
+                font_style: 'Button'
+                font_size: 45
+                halign: "center"
+                size_hint_y: None
+                height: self.texture_size[1]
+                padding_y: 15
+
+            MDTextFieldRound:
+                hint_text: "username"
+                icon_right: "account"
+                size_hint_x: None
+                width: 220
+                font_size: 20
+                pos_hint: {"center_x": .5}
+            MDTextFieldRound:
+                hint_text: "password"
+                icon_right:"eye-off"
+                size_hint_x: None
+                width: 220
+                font_size: 20
+                pos_hint: {"center_x": .5}
+                color_active: [1,1,1,1]
+                password: True
+            MDRoundFlatButton:
+                text: 'LOG-IN'
+                pos_hint: {"center_x": .5}
+                font_size: 15
+                on_press: root.manager.current = "SecondWindow"
+            MDRoundFlatButton:
+                text: 'SIGN-UP'
+                pos_hint: {"center_x": .5}
+                font_size: 15
+                on_press: root.manager.current = "SignUp"
+
+            Widget:
+                size_hint_y: None
+                height: 30
 
 
+<SignUp>
+    MDScreen :
+        md_bg_color : [35/255,59/255,54/255,1]
+        MDCard :
+            orientation : 'vertical'
+            size_hint : None,None
+            size : 300,500
+            pos_hint : {"center_x":.5,"center_y":.5}
+            elevation : 15
+            md_bg_color : [35/255,49/255,48/255,1]
+            padding : 20
+            spacing : 30
+            MDLabel :
+                text : "SIGN-UP"
+                font_style : "Button"
+                font_size : 40
+                halign : "center"
+                size_hint_y : None
+                height : self.texture_size[1]
+                padding_y : 30
+            MDTextFieldRound :
+                id:username
+                hint_text : "username"
+                size_hint_x : None
+                icon_right : "account"
+                width : 250
+                font_size : 20
+                pos_hint : {"center_x":.5}
+                normal_color : [35/255,49/255,48/255,1]
+                color_active : [1,1,1,1]
 
+            MDTextFieldRound :
+                id: password
+                hint_text : "password"
+                password : True
+                size_hint_x : None
+                icon_right : "eye-off"
+                width : 250
+                font_size : 20
+                pos_hint : {"center_x":.5}
+                normal_color : [35/255,49/255,48/255,1]
+                color_active : [1,1,1,1]
+            MDTextFieldRound :
+                hint_text : "confirm-password"
+                size_hint_x : None
+                password : True
+                icon_right : "eye-off"
+                width : 250
+                font_size : 20
+                pos_hint : {"center_x":.5}
+                normal_color : [35/255,49/255,48/255,1]
+                color_active : [1,1,1,1]
+            MDTextFieldRound :
+                id: number
+                hint_text : "mobile number"
+                size_hint_x : None
+                icon_right : "phone"
+                width : 250
+                font_size : 20
+                pos_hint : {"center_x":.5}
+                normal_color : [35/255,49/255,48/255,1]
+                color_active : [1,1,1,1]
+            MDRoundFlatButton :
+                text : "SIGN-UP"
+                font_size : 15
+                pos_hint : {"center_x":.5}
+                theme_text_color : "Custom"
+                text_color : [0,0,0,1]
+                on_release:
+                    app.send_data(username.text, password.text, number.text)
+                    root.manager.current = "SecondWindow"
 
 <SecondWindow>:
     canvas.before:
@@ -63,6 +185,7 @@ SignInSignUp:
             text: "go to sentiment game"
             on_press:
                 root.manager.current = "MyGrid2"
+
         Button:
             text: "Recognize How You Feel"
             on_press:
@@ -108,7 +231,7 @@ SignInSignUp:
         orientation: 'vertical'
 
         MDToolbar:
-            title: 'Demo'
+            title: 'Positivity Tracker'
 
         GridLayout:
             cols:1
@@ -129,43 +252,116 @@ SignInSignUp:
                 id:totalscore
                 text:"Today's Score: "
             Label:
-                id:label
-                text: "Press start below to begin recording"
+                id: timer
+                text: str(round(5))
+                font_size: 30
+                halign: 'center'
+                valign: 'middle'
 
-        GridLayout:
+
+        MDGridLayout:
             cols:3
             Label:
-            Spinner:
+            Button:
                 id: spinner_id
                 text: "Start"
 
+
+
+                on_press:
+                    timer.text = "Say Now!!!"
                 on_press: root.displayResult()
-                values: ["Positive", "Negative", "Neutral"]
-                on_text: root.store(spinner_id.text, input2.text, input.text)
+                on_press:
+                    Factory.MyPopup2().open()
+
+
+
+
 
 
             Label:
 
 
 
-        GridLayout:
+
+
+
+
+        MDGridLayout:
             cols:3
             height: root.height * .5
             Label:
                 text:
             Label:
             Label:
+
+
+
+            MDIconButton:
+                name:"HomeScreen"
+
+
+                icon: 'home'
+
+                on_release: root.manager.current = "SecondWindow"
+
+
+            MDIconButton:
+                name:"TrendingScreen"
+
+                icon: 'trending-up'
+
+                on_release: root.manager.current = "statPage"
+
+            MDIconButton:
+                name:"AddNewScreen"
+                icon: 'plus'
+
+
+<MyPopup2@Popup>
+
+    canvas.before:
+        Color:
+            rgba: (0,0,0,1)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+
+    BoxLayout:
+        orientation: 'vertical'
+
+        MDToolbar:
+            title: 'Results'
+
+        GridLayout:
+            cols:1
+            Label:
+                id:timer
+                text:""
+            Label:
+                id:input
+                text:"input: "
+
+            Label:
+                id:input2
+                text:"sentiment: "
+            Label:
+                id:scorechange
+                text:"+/- 1 "
+            Label:
+                id:totalscore
+                text:"Today's Score: "
             Button:
-                size_hint: 1, 0.5
-                text:"Home"
-                on_press:
-                    root.manager.current = "SecondWindow"
-            Button:
-                text:"Stats"
-                on_press:
-                    root.manager.current = "statPage"
-            Button:
-                text:"Account"
+                id: timer
+                text: "Go back"
+                font_size: 30
+                halign: 'center'
+
+                on_press: root.dismiss()
+
+
+
 
 
 <MyMDCard@MDCard>

@@ -1,13 +1,14 @@
 import string
+
 string.punctuation
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 from textblob import TextBlob
 import pickle
 
-
 from nltk.stem.porter import PorterStemmer
 from nltk.tokenize import word_tokenize
+
 stemmer = PorterStemmer()
 import time
 import speech_recognition as s_r
@@ -21,9 +22,6 @@ import re
 from transformers import pipeline
 import datetime
 
-
-import pymongo
-from pymongo import MongoClient
 
 
 def emotionSaved(df_emotion, emotion):
@@ -40,3 +38,8 @@ def emotionSaved(df_emotion, emotion):
     saved2 = pd.read_pickle("file2.pkl")
 
     print(saved2)
+
+
+
+
+

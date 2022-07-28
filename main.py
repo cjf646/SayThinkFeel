@@ -62,16 +62,10 @@ from kivy.uix.floatlayout import FloatLayout
 from kivy.garden.matplotlib.backend_kivyagg import FigureCanvasKivyAgg
 import matplotlib.pyplot as plt
 
-
-
+from kivy.properties import NumericProperty
+from kivy.clock import Clock
 # from kivy.uix.colorpicker import ColorPickerApp
 
-# x = [1,2,3,4,5]
-# y = [5, 12, 6, 9, 15]
-#
-# plt.plot(x,y)
-# plt.ylabel("This is MY Y Axis")
-# plt.xlabel("X Axis")
 
 
 
@@ -104,7 +98,11 @@ class statPage(Screen):
 
 
 
+class SignIn(Screen):
+    pass
 
+class SignUp(Screen):
+    pass
 
 class FirstWindow(Screen):
     pass
@@ -141,12 +139,31 @@ class SignInSignUp(Screen):
 class MyEmotionPopup(Screen):
     pass
 
+
+
+
+
+
 class MyGrid2(Screen):
     score = 0
 
+    def change(self, number):
+        self.ids['spinner_id'].background_color = 1.0, 0.0, 0.0, 1.0
+        self.ids.timer.text = 'speaak'
+
+
+        # self.ids.timer.text = f'{number}'
+
+
+
     def displayResult(self):
+
         df = pd.DataFrame(columns=['Date', 'Time', 'Sentence', 'Sentiment', 'Points'])
         score = 0
+        # timer = timeCount()
+
+        # self.ids.timer.text = f'Say Now!!!'
+
         text = micRecord(r)
 
         sent = getPolarity(text)
@@ -155,6 +172,11 @@ class MyGrid2(Screen):
         self.ids.scorechange.text = f'Score: {score_count}'
         self.ids.input2.text = f'{sent}'
         self.ids.input.text = f'{text}'
+
+        # number = NumericProperty(5)
+        #
+        # self.ids.timer.text = f'{number}'
+
 
         # human_sentiment = self.ids.spinner_id.text
         #
@@ -165,13 +187,36 @@ class MyGrid2(Screen):
 
 
 
+
+
     def store(self, human_sentiment, sent, input):
         print(input)
         print(human_sentiment)
         check_Sentiment(sent, human_sentiment, input)
+        # self.ids.spinner_id.text = f'RUN AGAIN'
+
+    number = NumericProperty(5)
 
 
+    def __init__(self, **kwargs):
+        # The super() builtin
+        # returns a proxy object that
+        # allows you to refer parent class by 'super'.
+        super(MyGrid2, self).__init__(**kwargs)
 
+        # Create the clock and increment the time by .1 ie 1 second.
+        Clock.schedule_interval(self.increment_time, .1)
+
+        self.increment_time(5)
+
+    # To increase the time / count
+    def increment_time(self, interval):
+        self.number -= .1
+
+    # To start the count
+    def start(self):
+        Clock.unschedule(self.increment_time)
+        Clock.schedule_interval(self.increment_time, .1)
 
 
 class MyApp(MDApp):
@@ -189,8 +234,8 @@ class MyApp(MDApp):
         sm.add_widget(MyEmotionPopup(name="MyEmotionPopup"))
         # sm.add_widget(FigureCanvasKivyAgg(plt.gcf()))
         sm.add_widget(statPage(name="statPage"))
-
-
+        sm.add_widget(SignIn(name="SignIn"))
+        sm.add_widget(SignUp(name="SignUp"))
 
         # sm.add_widget(Popup(name="Popup"))
         # sm.add_widget(SignIn(name="SignIn"))
@@ -202,6 +247,19 @@ class MyApp(MDApp):
     def emotionpopup(self):
         pass
 
+    def send_data(self, username, password, number):
+        from firebase import firebase
+
+        firebase = firebase.FirebaseApplication('https://login-236e7-default-rtdb.firebaseio.com/', None)
+
+        data = {
+            'Username': username,
+            'Password': password,
+            'Number': number
+
+        }
+
+        firebase.post('login-236e7-default-rtdb/Users', data)
     # def MyMDCard(self):
     #     self.theme_cls.theme_style = "Dark"
     #     self.theme_cls.primary_palette = "BlueGray"

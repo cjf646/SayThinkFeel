@@ -102,9 +102,9 @@ def newScore(human_sentiment):
 def micRecord(r):
     with my_mic as source:
 
-            print("Say now!!!!")
-            audio = r.listen(source, phrase_time_limit=5)
-            text = r.recognize_google(audio)
+        print("Say now!!!!")
+        audio = r.listen(source, phrase_time_limit=5)
+        text = r.recognize_google(audio)
     return text
 
 def dataStore(df, text, sent, score_count):
@@ -157,3 +157,5 @@ def dataStore(df, text, sent, score_count):
 #     # saved['Points'] = pd.to_numeric(saved['Points'])
 #     All_Time_Points = saved.loc['Points'].sum()
 #     print("Your all time score is: ", All_Time_Points)
+
+
