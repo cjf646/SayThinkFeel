@@ -83,8 +83,7 @@ def check_Sentiment(sent, human_sentiment, input):
         print(saved)
     return human_sentiment
 
-r = s_r.Recognizer()
-my_mic = s_r.Microphone(device_index=1)
+
 
 
 def newScore(human_sentiment):
@@ -99,12 +98,20 @@ def newScore(human_sentiment):
 
 
 
-def micRecord(r):
+def micRecord():
+    r = s_r.Recognizer()
+    my_mic = s_r.Microphone(device_index=1)
     with my_mic as source:
 
         print("Say now!!!!")
         audio = r.listen(source, phrase_time_limit=5)
+    try:
+        print("Recognizing...")
         text = r.recognize_google(audio)
+    except Exception as e:
+        print("Sorry i didn't catch that...")
+        text = "Did not recognize what you said"
+
     return text
 
 def dataStore(df, text, sent, score_count):
@@ -158,4 +165,18 @@ def dataStore(df, text, sent, score_count):
 #     All_Time_Points = saved.loc['Points'].sum()
 #     print("Your all time score is: ", All_Time_Points)
 
-
+# def dataBasePositivityGame(text, sent, score_count):
+#     from firebase import firebase
+#
+#     firebase = firebase.FirebaseApplication('https://login-236e7-default-rtdb.firebaseio.com/', None)
+#
+#     data = {
+#         'Text': text,
+#         'Sentiment': sent,
+#         'Score_count': score_count
+#
+#     }
+#     result = firebase.get('login-236e7-default-rtdb/Users/PositivityGame', '')
+#
+#     firebase.post('login-236e7-default-rtdb/Users', data)
+#     print(result)

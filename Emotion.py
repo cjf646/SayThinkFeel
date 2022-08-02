@@ -22,7 +22,7 @@ import re
 from transformers import pipeline
 import datetime
 
-
+from main import *
 
 def emotionSaved(df_emotion, emotion):
     tim = time.localtime()
@@ -40,6 +40,30 @@ def emotionSaved(df_emotion, emotion):
     print(saved2)
 
 
-
+# def emotionDatabase(emotion):
+#     tim = time.localtime()
+#     current_time = time.strftime("%H:%M:%S", tim)
+#
+#     date = datetime.date.today()
+#     from firebase import firebase
+#
+#     firebase = firebase.FirebaseApplication('https://login-236e7-default-rtdb.firebaseio.com/', None)
+#
+#
+#     data = {
+#         'Time': current_time,
+#         'Date': date,
+#         'Emotion': emotion
+#     }
+#     # username = saveUsername(username)
+#     # user = SignIn()
+#     # print(user)
+#     result = firebase.get('login-236e7-default-rtdb/Users', '')
+#     for i in result.keys():
+#         if result[i]['Username'] == user:
+#             # print(username + "Username already exists")
+#
+#             firebase.post('login-236e7-default-rtdb/Users/FeelingTracker', data)
+#             print(result)
 
 

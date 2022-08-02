@@ -42,7 +42,7 @@ def sentimentPoints():
     # print(date)
 
     date_grouped = saved.groupby('Date')['Points'].sum()
-    print(date_grouped)
+    # print(date_grouped)
 
     graph = date_grouped.plot(x='Date', y='Points', kind='bar')
     # plt.show()

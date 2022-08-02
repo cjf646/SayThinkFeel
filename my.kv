@@ -53,8 +53,13 @@ SignInSignUp:
             spacing: 30
             orientation: 'vertical'
 
+
+
             MDLabel:
+                id:login
+
                 text: 'LOGIN'
+                image: "youfirst.png"
                 font_style: 'Button'
                 font_size: 45
                 halign: "center"
@@ -62,7 +67,12 @@ SignInSignUp:
                 height: self.texture_size[1]
                 padding_y: 15
 
+
+
+
+
             MDTextFieldRound:
+                id:username
                 hint_text: "username"
                 icon_right: "account"
                 size_hint_x: None
@@ -70,6 +80,7 @@ SignInSignUp:
                 font_size: 20
                 pos_hint: {"center_x": .5}
             MDTextFieldRound:
+                id:password
                 hint_text: "password"
                 icon_right:"eye-off"
                 size_hint_x: None
@@ -82,7 +93,8 @@ SignInSignUp:
                 text: 'LOG-IN'
                 pos_hint: {"center_x": .5}
                 font_size: 15
-                on_press: root.manager.current = "SecondWindow"
+                on_press: root.sign_in(username.text, password.text)
+
             MDRoundFlatButton:
                 text: 'SIGN-UP'
                 pos_hint: {"center_x": .5}
@@ -156,15 +168,26 @@ SignInSignUp:
                 pos_hint : {"center_x":.5}
                 normal_color : [35/255,49/255,48/255,1]
                 color_active : [1,1,1,1]
-            MDRoundFlatButton :
-                text : "SIGN-UP"
-                font_size : 15
-                pos_hint : {"center_x":.5}
-                theme_text_color : "Custom"
-                text_color : [0,0,0,1]
-                on_release:
-                    app.send_data(username.text, password.text, number.text)
-                    root.manager.current = "SecondWindow"
+
+            MDGridLayout:
+                cols:2
+                spacing: dp(75)
+                MDRoundFlatButton:
+                    text : "SIGN-UP"
+                    font_size : 15
+                    pos_hint : {"center_x":.5}
+                    theme_text_color : "Custom"
+                    text_color : [0,0,0,1]
+                    on_press:
+                        root.send_data(username.text, password.text, number.text)
+                MDRoundFlatButton :
+                    text : "BACK"
+                    font_size : 15
+                    pos_hint : {"center_x":.5}
+                    theme_text_color : "Custom"
+                    text_color : [0,0,0,1]
+                    on_press:
+                        root.manager.current = "SignInSignUp"
 
 <SecondWindow>:
     canvas.before:
@@ -184,7 +207,7 @@ SignInSignUp:
         Button:
             text: "go to sentiment game"
             on_press:
-                root.manager.current = "MyGrid2"
+                root.manager.current = "PositivityGame"
 
         Button:
             text: "Recognize How You Feel"
@@ -218,7 +241,7 @@ SignInSignUp:
             height: 50
             size_hint_y: None
 
-<MyGrid2>
+<PositivityGame>
     canvas.before:
         Color:
             rgba: (0,0,0,1)
@@ -232,7 +255,7 @@ SignInSignUp:
 
         MDToolbar:
             title: 'Positivity Tracker'
-
+            right_action_items : [["dots-vertical", lambda x: app.menu.open()]]
         GridLayout:
             cols:1
             Label:
@@ -265,27 +288,12 @@ SignInSignUp:
             Button:
                 id: spinner_id
                 text: "Start"
-
-
-
                 on_press:
                     timer.text = "Say Now!!!"
                 on_press: root.displayResult()
                 on_press:
                     Factory.MyPopup2().open()
-
-
-
-
-
-
             Label:
-
-
-
-
-
-
 
         MDGridLayout:
             cols:3
@@ -295,24 +303,14 @@ SignInSignUp:
             Label:
             Label:
 
-
-
             MDIconButton:
                 name:"HomeScreen"
-
-
                 icon: 'home'
-
-                on_release: root.manager.current = "SecondWindow"
-
-
+                on_release: root.manager.current = "SelectGames"
             MDIconButton:
                 name:"TrendingScreen"
-
                 icon: 'trending-up'
-
                 on_release: root.manager.current = "statPage"
-
             MDIconButton:
                 name:"AddNewScreen"
                 icon: 'plus'
@@ -390,7 +388,7 @@ SignInSignUp:
 
 
 
-<emotionalIntelligence>
+<feelings>
     canvas.before:
         Color:
             rgba: (0,0,0,1)
@@ -417,7 +415,7 @@ SignInSignUp:
             height: 50
             size_hint_y: None
             size_hint_x: None
-            on_press: root.manager.current = "SecondWindow"
+            on_press: root.manager.current = "SelectGames"
 
 <MyPopup@Popup>
     auto_dismiss: False
@@ -447,8 +445,62 @@ SignInSignUp:
 		Button:
 		    id:bttn
 		    text:"Go Back"
-		    on_release: root.manager.current = "SecondWindow"
+		    on_release: root.manager.current = "PositivityGame"
 		TextInput:
 			id: namer
 			multiline: False
 
+<SelectGames>
+    MDScreen:
+        md_bg_color: 56/255, 40/255, 81/255,1
+
+        MDBoxLayout:
+            orientation: 'vertical'
+            MDToolbar:
+                title: 'Mental Health Games'
+                right_action_items : [["dots-vertical", lambda x: app.menu.open()]]
+                md_bg_color: 38/255, 26/255, 57/255,1
+
+            MDGridLayout:
+                size_hint_y: .75
+
+                cols:2
+                padding: dp(15)
+                spacing: dp(10)
+                ElementCard:
+                    image: "positive.png"
+                    text: "Practice Positivity"
+                    on_press:
+                        root.manager.current = "PositivityGame"
+
+                ElementCard:
+                    image: "feelings.png"
+                    text: "Track your feelings"
+                    on_press:
+                        root.manager.current = "feelings"
+                ElementCard:
+                    image: "support.png"
+                    text: "Additional Support"
+                    on_press:
+                        root.manager.current = "PositivityGame"
+
+                ElementCard:
+                    image: "brain.jpg"
+                    text: "Challenges"
+                    on_press:
+                        root.manager.current = "feelings"
+
+<ElementCard@MDCard>
+    md_bg_color: 69/255, 55/255, 86/255,1
+    size_hint_y: None
+    padding: dp(10)
+    radius: dp(15)
+    image: ''
+    text: ""
+    height: dp(150)
+    orientation: 'vertical'
+    Image:
+        source: root.image
+    MDLabel:
+        halign: "center"
+        text:root.text
