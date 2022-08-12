@@ -69,7 +69,64 @@ from kivy.properties import NumericProperty
 from kivy.clock import Clock
 # from kivy.uix.colorpicker import ColorPickerApp
 
+from kivymd.app import MDApp
+from kivy.lang import Builder
+from kivy.core.window import Window
+from kivy.clock import Clock
+from threading import Thread
+from kivymd.uix.floatlayout import MDFloatLayout
+from kivy.properties import ColorProperty
+import time
 
+from kivymd.uix.expansionpanel import MDExpansionPanel, MDExpansionPanelThreeLine
+
+from kivy.utils import rgba
+
+class Welcome(Screen):
+    def next(self):
+        self.ids.carousel.load_next(mode="next")
+
+    def current_slide(self, index):
+        for i in range(4):
+            if index == i:
+                self.ids[f"slide{index}"].text_color = rgba(111, 206, 203, 255)
+            elif index != i:
+                self.ids[f"slide{i}"].text_color = rgba(221, 221, 221, 255)
+
+class Support(Screen):
+
+    def on_enter(self):
+        for i in range(10):
+            self.ids.box.add_widget(MDExpansionPanel(icon="brain.jpg",content=Support(),panel_cls=MDExpansionPanelThreeLine(text="Text", secondary_text="Secondary Text", tertiary_text="Tertiary Text")))
+
+
+class VerifyText(Screen):
+
+    def on_enter(self, *args):
+        self.manager.get_screen("VerifyText").ids.spokentext.text = self.manager.get_screen("PositivityGame").ids.input2.text
+
+    def storeResult(self, text):
+        df = pd.DataFrame(columns=['Date', 'Time', 'Sentence', 'Sentiment', 'Points'])
+        score = 0
+
+        sent = getPolarity(text)
+        score_count = positivity_count(sent, score)
+
+        self.ids.sentiment.text = f'Score: {score_count}'
+
+        data = dataStore(df, text, sent, score_count)
+
+        self.ids.total.text = f'Todays score: {data}'
+
+        self.manager.get_screen("PositivityGame").ids.scorechange.text = self.manager.get_screen("VerifyText").ids.sentiment.text
+        self.manager.get_screen("PositivityGame").ids.totalscore.text = self.manager.get_screen("VerifyText").ids.total.text
+
+        self.ids.sentiment.text = ""
+        self.ids.total.text = ""
+
+    def onNo(self):
+        self.manager.get_screen("PositivityGame").ids.scorechange.text = self.manager.get_screen("VerifyText").ids.sentiment.text
+        self.manager.get_screen("PositivityGame").ids.totalscore.text = self.manager.get_screen("VerifyText").ids.total.text
 
 
 class statPage(Screen):
@@ -80,26 +137,8 @@ class statPage(Screen):
         box = self.ids.box
         box.add_widget(FigureCanvasKivyAgg(plt.gcf()))
 
-
-    # def displayGraph(self):
-
-        # graph1 = sentimentPoints()
-        # self.ids.box.add_widget(FigureCanvasKivyAgg(plt.gcf()))
-        # self.ids.box = f'{graph1}'
-
-
-
-#     def save_it(self):
-#         pass
-
-
-# Other things to include:
-# links to resources to include for people that are not doing well in their mental state
-
-# Additional support
-# Challenges
-
-
+class MyPopup2(Screen):
+    pass
 
 class SelectGames(Screen):
     pass
@@ -111,6 +150,7 @@ class SignIn(Screen):
         print(login)
         if login == '1':
             self.manager.current = 'SelectGames'
+
             return username
 
         else:
@@ -119,8 +159,8 @@ class SignIn(Screen):
 
 
 class SignUp(Screen):
-    def send_data(self, username, password, number):
-        sign_up_check = checkUsernameExists(username, password, number)
+    def send_data(self, email, username, password):
+        sign_up_check = checkUsernameExists(email, username, password)
         print(sign_up_check)
         if sign_up_check == '1':
             self.manager.current = 'SelectGames'
@@ -143,8 +183,6 @@ class feelings(Screen):
         df_emotion = pd.DataFrame(columns=['Date', 'Time', 'Emotion'])
 
         emotion_data = emotionSaved(df_emotion, emotion)
-        # emotion_database = emotionDatabase(emotion)
-        # print(emotion_database)
 
 
 class Statistics(Screen):
@@ -154,63 +192,25 @@ class Statistics(Screen):
 class SignInSignUp(Screen):
     pass
 
-# class WindowManager(ScreenManager):
-#     pass
-
-# class colorSelector(Screen):
-#
-#     selected_color = [0,0,1,1]
-
 class MyEmotionPopup(Screen):
     pass
 
-
-
 class PositivityGame(Screen):
+    DONE = False
     score = 0
 
     def change(self, number):
         self.ids['spinner_id'].background_color = 1.0, 0.0, 0.0, 1.0
         self.ids.timer.text = 'speaak'
 
-
-        # self.ids.timer.text = f'{number}'
-
-    def displayResult(self):
-
-        df = pd.DataFrame(columns=['Date', 'Time', 'Sentence', 'Sentiment', 'Points'])
-        score = 0
-        # timer = timeCount()
-
-        # self.ids.timer.text = f'Say Now!!!'
+    def text(self):
 
         text = micRecord()
         if text == "Did not recognize what you said":
             return
-        sent = getPolarity(text)
-        score_count = positivity_count(sent, score)
 
-        self.ids.scorechange.text = f'Score: {score_count}'
-        self.ids.input2.text = f'{sent}'
-        self.ids.input.text = f'{text}'
-
-        # number = NumericProperty(5)
-        #
-        # self.ids.timer.text = f'{number}'
-
-
-        # human_sentiment = self.ids.spinner_id.text
-        #
-        # checking_sentiment = check_Sentiment(sent, human_sentiment, text)
-        # if checking_sentiment == 'GOOD':
-        data = dataStore(df, text, sent, score_count)
-        # database_store = dataBasePositivityGame(text, sent, score_count)
-        # print(database_store)
-        self.ids.totalscore.text = f'Todays score: {data}'
-
-
-
-
+        time.sleep(0.5)
+        self.ids.input2.text = f'{text}'
 
     def store(self, human_sentiment, sent, input):
         print(input)
@@ -218,31 +218,44 @@ class PositivityGame(Screen):
         check_Sentiment(sent, human_sentiment, input)
         # self.ids.spinner_id.text = f'RUN AGAIN'
 
-    number = NumericProperty(5)
 
 
     def __init__(self, **kwargs):
-        # The super() builtin
-        # returns a proxy object that
-        # allows you to refer parent class by 'super'.
-        super(PositivityGame, self).__init__(**kwargs)
 
-        # Create the clock and increment the time by .1 ie 1 second.
-        Clock.schedule_interval(self.increment_time, .1)
+        super().__init__(**kwargs)
+        self.event = None
+        self.t = None
 
-        self.increment_time(5)
+    def trigger(self):
+        self.t = Thread(target=self.text, daemon=True)
+        self.t.start()
+        self.event = Clock.schedule_interval(self.update_counter, 1.0)
+        self.event()
 
-    # To increase the time / count
-    def increment_time(self, interval):
-        self.number -= .1
+    def update_counter(self, *args):
+        # print("Counter is being updated!")
+        self.ids.spinner_id.text = "Begin Speaking!"
+        self.ids.timer.text = str(int(self.ids.timer.text) - 1)
+        if int(self.ids.timer.text) == -1:
 
-    # To start the count
-    def start(self):
-        Clock.unschedule(self.increment_time)
-        Clock.schedule_interval(self.increment_time, .1)
+            time.sleep(0.5)
+            self.ids.spinner_id.text = "Press to run again"
+            self.ids.timer.text = "4"
+
+
+            self.manager.current = "VerifyText"
+
+
+            # print("The counter will reset now")
+
+            self.event.cancel()
+
+
+
 
 
 class MyApp(MDApp):
+
     def build(self):
 
         sm = ScreenManager()
@@ -262,12 +275,23 @@ class MyApp(MDApp):
 
 
         sm.add_widget(SelectGames(name="SelectGames"))
-        # sm.add_widget(Popup(name="Popup"))
+
+        sm.add_widget(MyPopup2(name="MyPopup2"))
+
+        sm.add_widget(VerifyText(name="VerifyText"))
+        sm.add_widget(Support(name="Support"))
+
+
+        sm.add_widget(Welcome(name="Welcome"))
         # sm.add_widget(SignIn(name="SignIn"))
         # sm.add_widget(Matty(name="Matty"))
         # box = self.ids.box
         # sm.add_widget(FigureCanvasKivyAgg(plt.gcf()))
         return sm
+
+
+
+
 
     def emotionpopup(self):
         pass
@@ -324,3 +348,6 @@ class MyApp(MDApp):
 
 if __name__ == "__main__":
     MyApp().run()
+
+
+

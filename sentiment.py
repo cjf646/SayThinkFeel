@@ -5,7 +5,6 @@ from nltk.corpus import stopwords
 from textblob import TextBlob
 import pickle
 
-
 from nltk.stem.porter import PorterStemmer
 from nltk.tokenize import word_tokenize
 stemmer = PorterStemmer()
@@ -29,9 +28,9 @@ from pymongo import MongoClient
 from datetime import date, timedelta
 
 import matplotlib.pyplot as plt
+import pyrebase
 
-
-
+global user
 
 def getPolarity(text):
     sentiment = TextBlob(text).sentiment.polarity
@@ -79,7 +78,7 @@ def check_Sentiment(sent, human_sentiment, input):
         updated_df2 = pd.concat([df2, saved])
         updated_df2.to_pickle("check.pkl")
         saved = pd.read_pickle("check.pkl")
-
+        # print(df2)
         print(saved)
     return human_sentiment
 
@@ -115,11 +114,31 @@ def micRecord():
     return text
 
 def dataStore(df, text, sent, score_count):
+    firebaseConfig = {'apiKey': "AIzaSyD71Nc2uaXn9fQxAmuCGcTiVdcCyulGdg0",
+                      'authDomain': "login-236e7.firebaseapp.com",
+                      'databaseURL': "https://login-236e7-default-rtdb.firebaseio.com",
+                      'projectId': "login-236e7",
+                      'storageBucket': "login-236e7.appspot.com",
+                      'messagingSenderId': "566019922271",
+                      'appId': "1:566019922271:web:89e59f0b662a6915127eea",
+                      'measurementId': "G-7PVGP9KFRR"}
+
+    firebase = pyrebase.initialize_app(firebaseConfig)
+    db = firebase.database()
+    auth = firebase.auth()
 
     tim = time.localtime()
     current_time = time.strftime("%H:%M:%S", tim)
 
     date = datetime.date.today()
+    d = date.strftime("%B %d, %Y")
+    # Firebase testing
+
+
+
+
+
+
 
     index = 0
     # df.to_pickle("file.pkl")
@@ -138,7 +157,7 @@ def dataStore(df, text, sent, score_count):
 
     date_grouped = saved.groupby('Date')['Points'].sum()
     print(date_grouped)
-
+    print(saved)
     # date_grouped.plot(x='Date', y='Points', kind='bar')
     # plt.show()
 
@@ -149,8 +168,20 @@ def dataStore(df, text, sent, score_count):
     week = saved.groupby([pd.Grouper(key='Date', freq='W')])['Points'].sum()
     print(week)
 
+    import firebase_admin
+    from firebase_admin import credentials
+    from firebase_admin import auth
+    # cred = credentials.Certificate("path/to/serviceAccountKey.json")
+    # firebase_admin.initialize_app(cred)
+    # user = auth.get_user(uid)
+    # print(user)
 
-
+    # user_id = A
+    # user_id = auth.user_id
+    # print(user_id)
+    # user_id = auth.get_user_by_email(username)
+    # data = {'Date': d, 'Time': current_time, 'Text': text, 'Sentiment': sent, 'Score_count': score_count}
+    # db.child("Users").child(getId()).set(data)
 
     # print(saved)
     # print(Total_Day_Points)
@@ -180,3 +211,8 @@ def dataStore(df, text, sent, score_count):
 #
 #     firebase.post('login-236e7-default-rtdb/Users', data)
 #     print(result)
+
+
+
+
+
