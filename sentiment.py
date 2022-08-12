@@ -113,7 +113,7 @@ def micRecord():
 
     return text
 
-def dataStore(df, text, sent, score_count):
+def dataStore(df, text, sent, score_count, username):
     firebaseConfig = {'apiKey': "AIzaSyD71Nc2uaXn9fQxAmuCGcTiVdcCyulGdg0",
                       'authDomain': "login-236e7.firebaseapp.com",
                       'databaseURL': "https://login-236e7-default-rtdb.firebaseio.com",
@@ -180,11 +180,10 @@ def dataStore(df, text, sent, score_count):
     # user_id = auth.user_id
     # print(user_id)
     # user_id = auth.get_user_by_email(username)
-    # data = {'Date': d, 'Time': current_time, 'Text': text, 'Sentiment': sent, 'Score_count': score_count}
-    # db.child("Users").child(getId()).set(data)
+    data = {'Date': d, 'Time': current_time, 'Text': text, 'Sentiment': sent, 'Score_count': score_count}
+    db.child("Users").child(username).set(data)
 
-    # print(saved)
-    # print(Total_Day_Points)
+
     return Total_Day_Points
 
 

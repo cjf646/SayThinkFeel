@@ -87,11 +87,13 @@ class Welcome(Screen):
         self.ids.carousel.load_next(mode="next")
 
     def current_slide(self, index):
-        for i in range(4):
+        for i in range(5):
             if index == i:
                 self.ids[f"slide{index}"].text_color = rgba(111, 206, 203, 255)
             elif index != i:
                 self.ids[f"slide{i}"].text_color = rgba(221, 221, 221, 255)
+
+
 
 class Support(Screen):
 
@@ -100,33 +102,6 @@ class Support(Screen):
             self.ids.box.add_widget(MDExpansionPanel(icon="brain.jpg",content=Support(),panel_cls=MDExpansionPanelThreeLine(text="Text", secondary_text="Secondary Text", tertiary_text="Tertiary Text")))
 
 
-class VerifyText(Screen):
-
-    def on_enter(self, *args):
-        self.manager.get_screen("VerifyText").ids.spokentext.text = self.manager.get_screen("PositivityGame").ids.input2.text
-
-    def storeResult(self, text):
-        df = pd.DataFrame(columns=['Date', 'Time', 'Sentence', 'Sentiment', 'Points'])
-        score = 0
-
-        sent = getPolarity(text)
-        score_count = positivity_count(sent, score)
-
-        self.ids.sentiment.text = f'Score: {score_count}'
-
-        data = dataStore(df, text, sent, score_count)
-
-        self.ids.total.text = f'Todays score: {data}'
-
-        self.manager.get_screen("PositivityGame").ids.scorechange.text = self.manager.get_screen("VerifyText").ids.sentiment.text
-        self.manager.get_screen("PositivityGame").ids.totalscore.text = self.manager.get_screen("VerifyText").ids.total.text
-
-        self.ids.sentiment.text = ""
-        self.ids.total.text = ""
-
-    def onNo(self):
-        self.manager.get_screen("PositivityGame").ids.scorechange.text = self.manager.get_screen("VerifyText").ids.sentiment.text
-        self.manager.get_screen("PositivityGame").ids.totalscore.text = self.manager.get_screen("VerifyText").ids.total.text
 
 
 class statPage(Screen):
@@ -141,21 +116,25 @@ class MyPopup2(Screen):
     pass
 
 class SelectGames(Screen):
+    # def on_enter(self):
     pass
 
 class SignIn(Screen):
-    def sign_in(self, username, password):
-        login = checkUsernamePasswordCorrect(username, password)
+    def sign_in(self, email,username, password):
+        user = checkUsernamePasswordCorrect(email, password)
 
-        print(login)
-        if login == '1':
+        print(user)
+        # Below code: if user is not null(None) it will execute the following code, else if None go to else(invalid login).
+        if user:
             self.manager.current = 'SelectGames'
-
-            return username
+            self.manager.get_screen(
+                "SelectGames").ids.title.title = f'Welcome back {self.manager.get_screen("SignIn").ids.username.text}!'
+            print("succesful login")
+            print(user['displayName'])
 
         else:
             self.manager.current = 'SignIn'
-
+            print("invalid login")
 
 
 class SignUp(Screen):
@@ -164,6 +143,8 @@ class SignUp(Screen):
         print(sign_up_check)
         if sign_up_check == '1':
             self.manager.current = 'SelectGames'
+            self.manager.get_screen(
+                "SelectGames").ids.title.title = f'Welcome {self.manager.get_screen("SignUp").ids.username.text}!'
         else:
             self.manager.current = 'SignUp'
 
@@ -251,6 +232,35 @@ class PositivityGame(Screen):
             self.event.cancel()
 
 
+class VerifyText(Screen):
+
+    def on_enter(self, *args):
+        self.manager.get_screen("VerifyText").ids.spokentext.text = self.manager.get_screen("PositivityGame").ids.input2.text
+
+    def storeResult(self, text):
+        df = pd.DataFrame(columns=['Date', 'Time', 'Sentence', 'Sentiment', 'Points'])
+        score = 0
+
+        sent = getPolarity(text)
+        score_count = positivity_count(sent, score)
+
+        self.ids.sentiment.text = f'Score: {score_count}'
+
+        username = self.manager.get_screen("SignIn").ids.username.text
+
+        data = dataStore(df, text, sent, score_count, username)
+
+        self.ids.total.text = f'Todays score: {data}'
+
+        self.manager.get_screen("PositivityGame").ids.scorechange.text = self.manager.get_screen("VerifyText").ids.sentiment.text
+        self.manager.get_screen("PositivityGame").ids.totalscore.text = self.manager.get_screen("VerifyText").ids.total.text
+
+        self.ids.sentiment.text = ""
+        self.ids.total.text = ""
+
+    def onNo(self):
+        self.manager.get_screen("PositivityGame").ids.scorechange.text = self.manager.get_screen("VerifyText").ids.sentiment.text
+        self.manager.get_screen("PositivityGame").ids.totalscore.text = self.manager.get_screen("VerifyText").ids.total.text
 
 
 

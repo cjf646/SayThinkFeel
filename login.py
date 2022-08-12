@@ -70,6 +70,7 @@ def checkUsernameExists(email, username, password):
 
     user = auth.create_user_with_email_and_password(email, password)
     # uid = firebase.auth(user)
+    user['DisplayName'] = username
     print(user['localId'])
     # user['localId'] = username
     # print(user['localId'])
@@ -132,15 +133,11 @@ def checkUsernamePasswordCorrect(username, password):
 
 
     try:
-        # global login
-        login = auth.sign_in_with_email_and_password(username, password)
-        global user
-        user = auth.current_user['localId']
+        auth.sign_in_with_email_and_password(username, password)
 
-        print(user)
-        return '1'
-    except:
-        return 'not good'
+    except Exception as e:
+        print(f"exception: {e}")
+    return auth.current_user
 
 
 

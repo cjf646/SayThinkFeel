@@ -1,6 +1,129 @@
 #:import Factory kivy.factory.Factory
+SignInSignUp:
+
+<SignInSignUp>:
+    canvas.before:
+        Color:
+            rgba: (0,0,0,1)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    GridLayout:
+        cols:1
+
+        size:root.width - 4, root.height - 5
+        pos:2, 2
+        GridLayout:
+            cols:1
+            Image:
+                source:'youfirst.png'
+        BoxLayout:
+            orientation: 'vertical'
 
 
+
+            Label:
+            Label:
+            Label:
+
+
+
+            Button:
+                id:signin
+                text:"Sign In"
+                on_press:
+                    root.manager.current = "SignIn"
+            Button:
+                id:signup
+                text:"Sign Up"
+                on_release:
+                    root.manager.current = "SignUp"
+
+
+<SignUp>
+    MDScreen :
+        md_bg_color : [35/255,59/255,54/255,1]
+        MDCard :
+            orientation : 'vertical'
+            size_hint : None,None
+            size : 300,500
+            pos_hint : {"center_x":.5,"center_y":.5}
+            elevation : 15
+            md_bg_color : [35/255,49/255,48/255,1]
+            padding : 20
+            spacing : 30
+            MDLabel :
+                text : "SIGN-UP"
+                font_style : "Button"
+                font_size : 40
+                halign : "center"
+                size_hint_y : None
+                height : self.texture_size[1]
+                padding_y : 30
+            MDTextFieldRound :
+                id: email
+                hint_text : "Email"
+                size_hint_x : None
+                icon_right : "phone"
+                width : 250
+                font_size : 20
+                pos_hint : {"center_x":.5}
+                normal_color : [35/255,49/255,48/255,1]
+                color_active : [1,1,1,1]
+            MDTextFieldRound :
+                id:username
+                hint_text : "username"
+                size_hint_x : None
+                icon_right : "account"
+                width : 250
+                font_size : 20
+                pos_hint : {"center_x":.5}
+                normal_color : [35/255,49/255,48/255,1]
+                color_active : [1,1,1,1]
+
+            MDTextFieldRound :
+                id: password
+                hint_text : "password"
+                password : True
+                size_hint_x : None
+                icon_right : "eye-off"
+                width : 250
+                font_size : 20
+                pos_hint : {"center_x":.5}
+                normal_color : [35/255,49/255,48/255,1]
+                color_active : [1,1,1,1]
+            MDTextFieldRound :
+                hint_text : "confirm-password"
+                size_hint_x : None
+                password : True
+                icon_right : "eye-off"
+                width : 250
+                font_size : 20
+                pos_hint : {"center_x":.5}
+                normal_color : [35/255,49/255,48/255,1]
+                color_active : [1,1,1,1]
+
+
+            MDGridLayout:
+                cols:2
+                spacing: dp(75)
+                MDRoundFlatButton:
+                    text : "SIGN-UP"
+                    font_size : 15
+                    pos_hint : {"center_x":.5}
+                    theme_text_color : "Custom"
+                    text_color : [0,0,0,1]
+                    on_press:
+                        root.send_data(email.text, username.text, password.text)
+                        root.manager.current = "SelectGames"
+                MDRoundFlatButton :
+                    text : "BACK"
+                    font_size : 15
+                    pos_hint : {"center_x":.5}
+                    theme_text_color : "Custom"
+                    text_color : [0,0,0,1]
+                    on_press:
+                        root.manager.current = "SignInSignUp"
 <Welcome>
     MDFloatLayout:
         md_bg_color: 1,1,1,1
@@ -84,6 +207,7 @@
                     color: rgba(135, 143, 158, 255)
 
     MDIconButton:
+        id: btn
         icon: "arrow-right"
         md_bg_color: 0,0,0,1
         theme_text_color: "Custom"
@@ -130,46 +254,6 @@
 
         pos_hint: {"center_x": .22, "center_y": .075}
         user_font_size: "8sp"
-SignInSignUp:
-
-<SignInSignUp>:
-    canvas.before:
-        Color:
-            rgba: (0,0,0,1)
-        Rectangle:
-            pos: self.pos
-            size: self.size
-    GridLayout:
-        cols:1
-
-        size:root.width - 4, root.height - 5
-        pos:2, 2
-        GridLayout:
-            cols:1
-            Image:
-                source:'youfirst.png'
-        BoxLayout:
-            orientation: 'vertical'
-
-
-
-            Label:
-            Label:
-            Label:
-
-
-
-            Button:
-                id:signin
-                text:"Sign In"
-                on_press:
-                    root.manager.current = "SignIn"
-            Button:
-                id:signup
-                text:"Sign Up"
-                on_release:
-                    root.manager.current = "SignUp"
-
 
 
 <SignIn>
@@ -204,6 +288,14 @@ SignInSignUp:
 
 
             MDTextFieldRound:
+                id:email
+                hint_text: "email"
+                icon_right: "account"
+                size_hint_x: None
+                width: 220
+                font_size: 20
+                pos_hint: {"center_x": .5}
+            MDTextFieldRound:
                 id:username
                 hint_text: "username"
                 icon_right: "account"
@@ -225,7 +317,7 @@ SignInSignUp:
                 text: 'LOG-IN'
                 pos_hint: {"center_x": .5}
                 font_size: 15
-                on_press: root.sign_in(username.text, password.text)
+                on_press: root.sign_in(email.text, username.text, password.text)
 
             MDRoundFlatButton:
                 text: 'SIGN-UP'
@@ -237,90 +329,61 @@ SignInSignUp:
                 size_hint_y: None
                 height: 30
 
+<SelectGames>
+    MDScreen:
+        md_bg_color: 56/255, 40/255, 81/255,1
 
-<SignUp>
-    MDScreen :
-        md_bg_color : [35/255,59/255,54/255,1]
-        MDCard :
-            orientation : 'vertical'
-            size_hint : None,None
-            size : 300,500
-            pos_hint : {"center_x":.5,"center_y":.5}
-            elevation : 15
-            md_bg_color : [35/255,49/255,48/255,1]
-            padding : 20
-            spacing : 30
-            MDLabel :
-                text : "SIGN-UP"
-                font_style : "Button"
-                font_size : 40
-                halign : "center"
-                size_hint_y : None
-                height : self.texture_size[1]
-                padding_y : 30
-            MDTextFieldRound :
-                id: email
-                hint_text : "Email"
-                size_hint_x : None
-                icon_right : "phone"
-                width : 250
-                font_size : 20
-                pos_hint : {"center_x":.5}
-                normal_color : [35/255,49/255,48/255,1]
-                color_active : [1,1,1,1]
-            MDTextFieldRound :
-                id:username
-                hint_text : "username"
-                size_hint_x : None
-                icon_right : "account"
-                width : 250
-                font_size : 20
-                pos_hint : {"center_x":.5}
-                normal_color : [35/255,49/255,48/255,1]
-                color_active : [1,1,1,1]
-
-            MDTextFieldRound :
-                id: password
-                hint_text : "password"
-                password : True
-                size_hint_x : None
-                icon_right : "eye-off"
-                width : 250
-                font_size : 20
-                pos_hint : {"center_x":.5}
-                normal_color : [35/255,49/255,48/255,1]
-                color_active : [1,1,1,1]
-            MDTextFieldRound :
-                hint_text : "confirm-password"
-                size_hint_x : None
-                password : True
-                icon_right : "eye-off"
-                width : 250
-                font_size : 20
-                pos_hint : {"center_x":.5}
-                normal_color : [35/255,49/255,48/255,1]
-                color_active : [1,1,1,1]
-
+        MDBoxLayout:
+            orientation: 'vertical'
+            MDToolbar:
+                id: title
+                title: 'Mental Health Games'
+                text:
+                right_action_items : [["dots-vertical", lambda x: app.menu.open()]]
+                md_bg_color: 38/255, 26/255, 57/255,1
 
             MDGridLayout:
+                size_hint_y: .75
+
                 cols:2
-                spacing: dp(75)
-                MDRoundFlatButton:
-                    text : "SIGN-UP"
-                    font_size : 15
-                    pos_hint : {"center_x":.5}
-                    theme_text_color : "Custom"
-                    text_color : [0,0,0,1]
+                padding: dp(15)
+                spacing: dp(10)
+                ElementCard:
+                    image: "positive.png"
+                    text: "Practice Positivity"
                     on_press:
-                        root.send_data(email.text, username.text, password.text)
-                MDRoundFlatButton :
-                    text : "BACK"
-                    font_size : 15
-                    pos_hint : {"center_x":.5}
-                    theme_text_color : "Custom"
-                    text_color : [0,0,0,1]
+                        root.manager.current = "PositivityGame"
+
+                ElementCard:
+                    image: "feelings.png"
+                    text: "Track your feelings"
                     on_press:
-                        root.manager.current = "SignInSignUp"
+                        root.manager.current = "feelings"
+                ElementCard:
+                    image: "support.png"
+                    text: "Additional Support"
+                    on_press:
+                        root.manager.current = "Support"
+
+                ElementCard:
+                    image: "brain.jpg"
+                    text: "Challenges"
+                    on_press:
+                        root.manager.current = "feelings"
+
+
+                ElementCard:
+                    image: "brain.jpg"
+                    text: "Positive Affirmations List"
+                    on_press:
+                        root.manager.current = "feelings"
+                ElementCard:
+                    image: "brain.jpg"
+                    text: "Check Progress"
+                    on_press:
+                        root.manager.current = "feelings"
+
+
 
 <SecondWindow>:
     canvas.before:
@@ -655,58 +718,6 @@ SignInSignUp:
 			id: namer
 			multiline: False
 
-<SelectGames>
-    MDScreen:
-        md_bg_color: 56/255, 40/255, 81/255,1
-
-        MDBoxLayout:
-            orientation: 'vertical'
-            MDToolbar:
-                id: title
-                title: 'Mental Health Games'
-                right_action_items : [["dots-vertical", lambda x: app.menu.open()]]
-                md_bg_color: 38/255, 26/255, 57/255,1
-
-            MDGridLayout:
-                size_hint_y: .75
-
-                cols:2
-                padding: dp(15)
-                spacing: dp(10)
-                ElementCard:
-                    image: "positive.png"
-                    text: "Practice Positivity"
-                    on_press:
-                        root.manager.current = "PositivityGame"
-
-                ElementCard:
-                    image: "feelings.png"
-                    text: "Track your feelings"
-                    on_press:
-                        root.manager.current = "feelings"
-                ElementCard:
-                    image: "support.png"
-                    text: "Additional Support"
-                    on_press:
-                        root.manager.current = "Support"
-
-                ElementCard:
-                    image: "brain.jpg"
-                    text: "Challenges"
-                    on_press:
-                        root.manager.current = "feelings"
-
-
-                ElementCard:
-                    image: "brain.jpg"
-                    text: "Positive Affirmations List"
-                    on_press:
-                        root.manager.current = "feelings"
-                ElementCard:
-                    image: "brain.jpg"
-                    text: "Check Progress"
-                    on_press:
-                        root.manager.current = "feelings"
 
 <Support>
 
